@@ -19,10 +19,9 @@
         .custom-scroll::-webkit-scrollbar-track { background: #18181b; border-radius: 8px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 8px; }
 
-        tr.zebra-white { background-color: #ffffff !important; }
-        tr.zebra-white td { background-color: #ffffff !important; }
-        tr.zebra-gray { background-color: #f1f5f9 !important; }
-        tr.zebra-gray td { background-color: #f1f5f9 !important; }
+        /* Festes Zebra-Design für die Zeilen */
+        .zebra-white { background-color: #ffffff; }
+        .zebra-gray { background-color: #f1f5f9; }
     </style>
 </head>
 <body class="bg-black min-h-screen text-slate-800 font-sans p-3 md:p-6">
@@ -248,7 +247,8 @@
 
             tbody.innerHTML = entries.map((e, index) => {
                 const rowClass = index % 2 === 0 ? 'zebra-white' : 'zebra-gray';
-                const deptBg = (e.dept || '').trim().toUpperCase() === 'BTW' ? 'bg-slate-700 text-white font-bold' : 'bg-amber-500 text-slate-950 font-extrabold';
+                // BTW in edlem Weinrot, INNO in kräftigem Gelb
+                const deptBg = (e.dept || '').trim().toUpperCase() === 'BTW' ? 'bg-rose-900 text-rose-100 font-bold' : 'bg-amber-500 text-slate-950 font-extrabold';
                 return `
                     <tr class="border-b border-slate-300 ${rowClass}">
                         <td class="py-2 px-3 text-center border-r border-slate-300">
