@@ -105,7 +105,7 @@
                 <button onclick="closePreviewModal()" class="text-emerald-200 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="p-4 bg-slate-950 overflow-y-auto custom-scroll flex-grow text-center">
-                <p class="text-xs text-slate-300 mb-3">Klicke auf <strong class="text-emerald-400">"Bild kopieren & WhatsApp öffnen"</strong>. Danach öffnet sich WhatsApp mit dem passenden Tag im Textfeld und du drückst dort nur noch <strong class="text-emerald-400">Strg + V</strong>:</p>
+                <p class="text-xs text-slate-300 mb-3">Bild & Tag sind kopiert! WhatsApp öffnet sich. Drücke im Chat einfach zweimal <strong class="text-emerald-400">Strg + V</strong> (1x für den Text, 1x für das Bild):</p>
                 <div id="preview-container" class="inline-block border border-slate-700 rounded-lg overflow-hidden shadow-lg max-h-56 bg-white">
                     <!-- Bild wird hier eingefügt -->
                 </div>
@@ -117,7 +117,7 @@
                         <i class="fa-solid fa-download"></i> Herunterladen
                     </button>
                     <button type="button" onclick="copyAndOpenWhatsApp()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-md">
-                        <i class="fa-brands fa-whatsapp text-base"></i> Bild kopieren & WhatsApp öffnen
+                        <i class="fa-brands fa-whatsapp text-base"></i> Kopieren & WhatsApp öffnen
                     </button>
                 </div>
             </div>
@@ -461,7 +461,7 @@
             document.getElementById('preview-modal').classList.add('hidden');
         }
 
-        // Schritt 2: Bild in Zwischenablage kopieren und WhatsApp Web direkt mit Text öffnen
+        // Schritt 2: Bild + Text in Zwischenablage und sauberes WhatsApp Web öffnen
         function copyAndOpenWhatsApp() {
             if (!generatedCanvas || !currentDayData) return;
 
@@ -483,11 +483,13 @@
 
         function triggerWhatsAppOpen() {
             const d = currentDayData;
-            // Text mit passendem Wochentag und Datum (z.B. *Dienstag, 29.09.26*)
             const text = `*${d.name}, ${d.date}*`;
 
-            // Öffnet WhatsApp Web mit bereits vorausgefülltem Text im Eingabefeld
-            window.open(`https://web.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+            // Kopiert zusätzlich den formatierten Tag-Text in die Zwischenablage
+            navigator.clipboard.writeText(text).catch(err => console.log(err));
+
+            // Öffnet WhatsApp Web ohne fehlerhafte API-Parameter
+            window.open('https://web.whatsapp.com/', '_blank');
             closePreviewModal();
         }
 
