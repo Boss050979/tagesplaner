@@ -97,7 +97,34 @@
         </main>
     </div>
 
-    <!-- Modals -->
+    <!-- Screenshot Vorschau Modal -->
+    <div id="preview-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print">
+        <div class="bg-slate-900 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden border border-slate-800 flex flex-col max-h-[90vh]">
+            <div class="bg-gradient-to-r from-emerald-700 to-emerald-600 text-white px-5 py-3.5 flex justify-between items-center shrink-0">
+                <h3 class="font-bold text-base"><i class="fa-brands fa-whatsapp mr-2"></i> WhatsApp Text geöffnet & Bild bereit</h3>
+                <button onclick="closePreviewModal()" class="text-emerald-200 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-4 bg-slate-950 overflow-y-auto custom-scroll flex-grow text-center">
+                <p class="text-xs text-slate-300 mb-3">Klicke auf den Button unten, um das Bild in die Zwischenablage zu kopieren. Gehe danach in den WhatsApp-Chat und drücke <strong class="text-emerald-400">Strg + V</strong>:</p>
+                <div id="preview-container" class="inline-block border border-slate-700 rounded-lg overflow-hidden shadow-lg max-h-64 bg-white">
+                    <!-- Bild wird hier eingefügt -->
+                </div>
+            </div>
+            <div class="bg-slate-900 px-5 py-3.5 border-t border-slate-800 flex justify-between items-center shrink-0">
+                <button type="button" onclick="closePreviewModal()" class="px-4 py-2 text-slate-400 hover:text-white text-xs">Schließen</button>
+                <div class="flex gap-2">
+                    <button type="button" onclick="downloadImageDirect()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-medium flex items-center gap-1.5">
+                        <i class="fa-solid fa-download"></i> Herunterladen
+                    </button>
+                    <button type="button" onclick="copyImageToClipboard()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-md">
+                        <i class="fa-solid fa-copy"></i> Bild kopieren
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals (Eintrag & Schnell-Eingabe) -->
     <div id="entry-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-200">
             <div class="bg-slate-900 text-white px-5 py-3.5 flex justify-between items-center">
@@ -190,6 +217,8 @@
         const days = getWeeklyDays();
         let currentDayId = getTodayId();
         let quickModalDayId = currentDayId;
+        let generatedCanvas = null;
+        let currentDayData = null;
 
         function getTodayId() {
             const jsDay = new Date().getDay();
@@ -389,7 +418,7 @@
             saveData(); closeQuickModal(); renderTable();
         }
 
-        // WhatsApp / Screenshot-Funktion mit Zwischenablage (Option 1)
+        // WhatsApp / Screenshot mit Vorschau-Modal
         function sendGroupWhatsApp() {
             const d = days.find(x => x.id === currentDayId);
             const element = document.getElementById('capture-area');
@@ -418,31 +447,69 @@
 
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
 
-            // 2. Screenshot machen und direkt in die Zwischenablage kopieren
+            currentDayData = d;
+
+            // 2. Screenshot erstellen und im Vorschau-Modal anzeigen
             if (typeof html2canvas !== 'undefined') {
                 html2canvas(element, { 
                     scale: 2, 
                     backgroundColor: '#ffffff',
                     useCORS: true 
                 }).then(canvas => {
-                    canvas.toBlob(blob => {
-                        try {
-                            const item = new ClipboardItem({ 'image/png': blob });
-                            navigator.clipboard.write([item]).then(() => {
-                                alert("✅ WhatsApp-Text geöffnet & Bild in Zwischenablage kopiert!\n\nGehe jetzt in den WhatsApp-Chat und drücke STRG + V (Einfügen), um das Bild direkt zu senden.");
-                            });
-                        } catch (err) {
-                            console.error("Zwischenablage-Fehler:", err);
-                            // Fallback falls der Browser es blockiert: Direkt als Download speichern
-                            const imageURL = canvas.toDataURL('image/png');
-                            const downloadLink = document.createElement('a');
-                            downloadLink.href = imageURL;
-                            downloadLink.download = `Tagesplan_${d.name}_${d.date}.png`;
-                            downloadLink.click();
-                        }
-                    });
+                    generatedCanvas = canvas;
+                    const previewContainer = document.getElementById('preview-container');
+                    previewContainer.innerHTML = '';
+                    
+                    // Bild für die Vorschau verkleinert darstellen
+                    const previewImg = document.createElement('img');
+                    previewImg.src = canvas.toDataURL('image/png');
+                    previewImg.className = 'w-full h-auto object-contain max-h-56';
+                    previewContainer.appendChild(previewImg);
+
+                    // Modal öffnen
+                    document.getElementById('preview-modal').classList.remove('hidden');
+                    document.getElementById('preview-modal').classList.add('flex');
+                }).catch(err => {
+                    console.error("Screenshot-Fehler:", err);
+                    alert("Fehler beim Erstellen des Screenshots.");
                 });
+            } else {
+                alert("html2canvas ist nicht geladen.");
             }
+        }
+
+        function closePreviewModal() {
+            document.getElementById('preview-modal').classList.remove('flex');
+            document.getElementById('preview-modal').classList.add('hidden');
+        }
+
+        function copyImageToClipboard() {
+            if (!generatedCanvas) return;
+            generatedCanvas.toBlob(blob => {
+                try {
+                    const item = new ClipboardItem({ 'image/png': blob });
+                    navigator.clipboard.write([item]).then(() => {
+                        alert("✅ Bild in Zwischenablage kopiert!\n\nGehe jetzt in den WhatsApp-Chat und drücke STRG + V.");
+                        closePreviewModal();
+                    }).catch(err => {
+                        console.error(err);
+                        downloadImageDirect();
+                    });
+                } catch (err) {
+                    console.error(err);
+                    downloadImageDirect();
+                }
+            });
+        }
+
+        function downloadImageDirect() {
+            if (!generatedCanvas || !currentDayData) return;
+            const imageURL = generatedCanvas.toDataURL('image/png');
+            const downloadLink = document.createElement('a');
+            downloadLink.href = imageURL;
+            downloadLink.download = `Tagesplan_${currentDayData.name}_${currentDayData.date}.png`;
+            downloadLink.click();
+            closePreviewModal();
         }
     </script>
 </body>
