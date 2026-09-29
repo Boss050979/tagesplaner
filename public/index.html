@@ -101,23 +101,23 @@
     <div id="preview-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print">
         <div class="bg-slate-900 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden border border-slate-800 flex flex-col max-h-[90vh]">
             <div class="bg-gradient-to-r from-emerald-700 to-emerald-600 text-white px-5 py-3.5 flex justify-between items-center shrink-0">
-                <h3 class="font-bold text-base"><i class="fa-brands fa-whatsapp mr-2"></i> WhatsApp Text geöffnet & Bild bereit</h3>
+                <h3 class="font-bold text-base"><i class="fa-solid fa-camera mr-2"></i> Schritt 1: Bild vorbereiten</h3>
                 <button onclick="closePreviewModal()" class="text-emerald-200 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="p-4 bg-slate-950 overflow-y-auto custom-scroll flex-grow text-center">
-                <p class="text-xs text-slate-300 mb-3">Klicke auf den Button unten, um das Bild in die Zwischenablage zu kopieren. Gehe danach in den WhatsApp-Chat und drücke <strong class="text-emerald-400">Strg + V</strong>:</p>
-                <div id="preview-container" class="inline-block border border-slate-700 rounded-lg overflow-hidden shadow-lg max-h-64 bg-white">
+                <p class="text-xs text-slate-300 mb-3">Klicke zuerst auf <strong class="text-emerald-400">"Bild kopieren & WhatsApp öffnen"</strong>. Danach öffnet sich WhatsApp automatisch und du drückst dort nur noch <strong class="text-emerald-400">Strg + V</strong>:</p>
+                <div id="preview-container" class="inline-block border border-slate-700 rounded-lg overflow-hidden shadow-lg max-h-56 bg-white">
                     <!-- Bild wird hier eingefügt -->
                 </div>
             </div>
             <div class="bg-slate-900 px-5 py-3.5 border-t border-slate-800 flex justify-between items-center shrink-0">
-                <button type="button" onclick="closePreviewModal()" class="px-4 py-2 text-slate-400 hover:text-white text-xs">Schließen</button>
+                <button type="button" onclick="closePreviewModal()" class="px-4 py-2 text-slate-400 hover:text-white text-xs">Abbrechen</button>
                 <div class="flex gap-2">
                     <button type="button" onclick="downloadImageDirect()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-medium flex items-center gap-1.5">
                         <i class="fa-solid fa-download"></i> Herunterladen
                     </button>
-                    <button type="button" onclick="copyImageToClipboard()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-md">
-                        <i class="fa-solid fa-copy"></i> Bild kopieren
+                    <button type="button" onclick="copyAndOpenWhatsApp()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-md">
+                        <i class="fa-brands fa-whatsapp text-base"></i> Bild kopieren & WhatsApp öffnen
                     </button>
                 </div>
             </div>
@@ -418,7 +418,7 @@
             saveData(); closeQuickModal(); renderTable();
         }
 
-        // WhatsApp / Screenshot mit Vorschau-Modal
+        // Schritt 1: Erst Screenshot machen und Vorschau anzeigen (WhatsApp öffnet sich noch NICHT)
         function sendGroupWhatsApp() {
             const d = days.find(x => x.id === currentDayId);
             const element = document.getElementById('capture-area');
@@ -428,28 +428,8 @@
                 return;
             }
 
-            // 1. Text für WhatsApp vorbereiten und WhatsApp-Fenster öffnen
-            const entries = appData[currentDayId]?.entries || [];
-            let text = `👑 *ELITE TAGESPLAN DÜREN - ${d.name.toUpperCase()} (${d.date})* 👑\n\n`;
-            
-            entries.forEach(e => {
-                text += `• *Nr. ${e.nr}* (${e.dept}) | ${e.driver}`;
-                if (e.time && e.time.trim() !== '' && e.time.trim() !== ':') {
-                    text += ` | ⏰ ${e.time}`;
-                }
-                if (e.info && e.info.trim() !== '') {
-                    text += ` | ℹ️ ${e.info}`;
-                }
-                text += `\n`;
-            });
-            
-            text += `\n📞 *Rufumleitung:* ${appData[currentDayId]?.rufumleitung || 'Keine'}`;
-
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
-
             currentDayData = d;
 
-            // 2. Screenshot erstellen und im Vorschau-Modal anzeigen
             if (typeof html2canvas !== 'undefined') {
                 html2canvas(element, { 
                     scale: 2, 
@@ -460,13 +440,11 @@
                     const previewContainer = document.getElementById('preview-container');
                     previewContainer.innerHTML = '';
                     
-                    // Bild für die Vorschau verkleinert darstellen
                     const previewImg = document.createElement('img');
                     previewImg.src = canvas.toDataURL('image/png');
                     previewImg.className = 'w-full h-auto object-contain max-h-56';
                     previewContainer.appendChild(previewImg);
 
-                    // Modal öffnen
                     document.getElementById('preview-modal').classList.remove('hidden');
                     document.getElementById('preview-modal').classList.add('flex');
                 }).catch(err => {
@@ -483,14 +461,15 @@
             document.getElementById('preview-modal').classList.add('hidden');
         }
 
-        function copyImageToClipboard() {
-            if (!generatedCanvas) return;
+        // Schritt 2: Wenn man auf den grünen Button klickt -> Erst kopieren, DANN WhatsApp öffnen!
+        function copyAndOpenWhatsApp() {
+            if (!generatedCanvas || !currentDayData) return;
+
             generatedCanvas.toBlob(blob => {
                 try {
                     const item = new ClipboardItem({ 'image/png': blob });
                     navigator.clipboard.write([item]).then(() => {
-                        alert("✅ Bild in Zwischenablage kopiert!\n\nGehe jetzt in den WhatsApp-Chat und drücke STRG + V.");
-                        closePreviewModal();
+                        triggerWhatsAppOpen();
                     }).catch(err => {
                         console.error(err);
                         downloadImageDirect();
@@ -500,6 +479,29 @@
                     downloadImageDirect();
                 }
             });
+        }
+
+        function triggerWhatsAppOpen() {
+            const d = currentDayData;
+            const entries = appData[currentDayId]?.entries || [];
+            let text = `👑 *ELITE TAGESPLAN DÜREN - ${d.name.toUpperCase()} (${d.date})* 👑\n\n`;
+            
+            entries.forEach(e => {
+                text += `• *Nr. ${e.nr}* (${e.dept}) | ${e.driver}`;
+                if (e.time && e.time.trim() !== '' && e.time.trim() !== ':') {
+                    text += ` | ⏰ ${e.time}`;
+                }
+                if (e.info && e.info.trim() !== '') {
+                    text += ` | ℹ️ ${e.info}`;
+                }
+                text += `\n`;
+            });
+            
+            text += `\n📞 *Rufumleitung:* ${appData[currentDayId]?.rufumleitung || 'Keine'}`;
+
+            // WhatsApp öffnet sich erst jetzt im exakten Moment nach dem Kopieren
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+            closePreviewModal();
         }
 
         function downloadImageDirect() {
