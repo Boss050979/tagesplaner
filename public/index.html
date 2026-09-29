@@ -19,7 +19,7 @@
         .custom-scroll::-webkit-scrollbar-track { background: #18181b; border-radius: 8px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 8px; }
         
-        /* Hintergrundbild aus dem public-Ordner mit dunklem Overlay für perfekte Lesbarkeit */
+        /* Hintergrundbild (da index.html & hintergrund.jpg im selben Ordner liegen) */
         body {
             background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), url('hintergrund.jpg');
             background-size: cover;
@@ -32,7 +32,7 @@
 
     <div class="max-w-6xl mx-auto space-y-4">
         
-        <!-- Header (Wird für Screenshot ignoriert) -->
+        <!-- Header -->
         <header class="bg-white/95 backdrop-blur-md rounded-2xl shadow-md p-4 flex flex-col md:flex-row justify-between items-center gap-4 no-print border border-slate-300/60">
             <div class="flex items-center gap-3">
                 <div class="bg-rose-600 text-white p-2.5 rounded-xl text-lg shadow-md">
@@ -59,10 +59,10 @@
             </div>
         </header>
 
-        <!-- Wochentage (Wird für Screenshot ignoriert) -->
+        <!-- Wochentage -->
         <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-md p-2.5 no-print flex overflow-x-auto gap-2 border border-slate-300/60" id="day-tabs"></div>
 
-        <!-- Haupt-Tabelle (HIER WIRD DER SCREENSHOT GEMACHT) -->
+        <!-- Haupt-Tabelle -->
         <main id="capture-area" class="bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-300">
             
             <div class="bg-gradient-to-r from-rose-700 to-rose-600 text-white py-3 px-5 text-center font-bold text-lg md:text-xl tracking-wide flex justify-between items-center">
@@ -391,7 +391,7 @@
             saveData(); closeQuickModal(); renderTable();
         }
 
-        // WhatsApp / Screenshot-Funktion (nur der Tabellen-Bereich)
+        // WhatsApp / Screenshot-Funktion
         function sendGroupWhatsApp() {
             const d = days.find(x => x.id === currentDayId);
             const element = document.getElementById('capture-area');
@@ -404,26 +404,21 @@
                 downloadLink.download = `Tagesplan_${d.name}_${d.date}.png`;
                 downloadLink.click();
 
-                // Textnachricht generieren
                 const entries = appData[currentDayId]?.entries || [];
                 let text = `👑 *ELITE TAGESPLAN DÜREN - ${d.name.toUpperCase()} (${d.date})* 👑\n\n`;
                 
                 entries.forEach(e => {
                     text += `• *Nr. ${e.nr}* (${e.dept}) | ${e.driver}`;
-                    
                     if (e.time && e.time.trim() !== '' && e.time.trim() !== ':') {
                         text += ` | ⏰ ${e.time}`;
                     }
-                    
                     if (e.info && e.info.trim() !== '') {
                         text += ` | ℹ️ ${e.info}`;
                     }
-                    
                     text += `\n`;
                 });
                 
                 text += `\n📞 *Rufumleitung:* ${appData[currentDayId]?.rufumleitung || 'Keine'}`;
-                
                 window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
             }).catch(err => {
                 console.error("Screenshot Fehler:", err);
