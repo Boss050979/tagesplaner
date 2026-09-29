@@ -17,25 +17,23 @@
             #capture-area { background: white !important; color: black !important; border: none !important; box-shadow: none !important; }
         }
         .custom-scroll::-webkit-scrollbar { width: 6px; }
-        .custom-scroll::-webkit-scrollbar-track { background: #0f172a; border-radius: 8px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 8px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
         
-        /* Edler Executive Dark-Gradient */
         body {
-            background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e1b4b 100%);
-            background-attachment: fixed;
+            background: #0f172a;
             min-height: 100vh;
         }
     </style>
 </head>
-<body class="text-slate-100 font-sans p-3 md:p-6">
+<body class="text-slate-900 font-sans p-3 md:p-6">
 
     <div class="max-w-6xl mx-auto space-y-4">
         
         <!-- Header -->
-        <header class="bg-slate-900/80 backdrop-blur-xl rounded-2xl shadow-2xl p-4 flex flex-col md:flex-row justify-between items-center gap-4 no-print border border-slate-700/60">
+        <header class="bg-slate-900 text-white rounded-2xl shadow-xl p-4 flex flex-col md:flex-row justify-between items-center gap-4 no-print border border-slate-800">
             <div class="flex items-center gap-3">
-                <div class="bg-gradient-to-br from-rose-500 to-rose-700 text-white p-3 rounded-xl text-lg shadow-lg shadow-rose-900/30">
+                <div class="bg-rose-600 text-white p-3 rounded-xl text-lg shadow-md shadow-rose-900/50">
                     <i class="fa-solid fa-calendar-days"></i>
                 </div>
                 <div>
@@ -61,39 +59,39 @@
         </header>
 
         <!-- Wochentage -->
-        <div class="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-2.5 no-print flex overflow-x-auto gap-2 border border-slate-800/80 custom-scroll" id="day-tabs"></div>
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-2.5 no-print flex overflow-x-auto gap-2 border border-slate-200 custom-scroll" id="day-tabs"></div>
 
         <!-- Haupt-Tabelle -->
-        <main id="capture-area" class="bg-slate-900/90 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-slate-700/60">
+        <main id="capture-area" class="bg-white rounded-2xl shadow-2xl overflow-hidden border-2 border-slate-300">
             
-            <div class="bg-gradient-to-r from-rose-900 via-rose-800 to-rose-700 text-white py-3.5 px-6 text-center font-bold text-lg md:text-xl tracking-wide flex justify-between items-center border-b border-rose-600/30">
+            <div class="bg-gradient-to-r from-rose-700 to-rose-600 text-white py-3.5 px-6 text-center font-extrabold text-lg md:text-xl tracking-wide flex justify-between items-center shadow-md">
                 <span id="current-date-title" class="drop-shadow-sm">Laden...</span>
-                <span id="day-badge" class="text-[11px] bg-slate-950/50 px-3 py-1 rounded-full uppercase tracking-wider font-semibold border border-rose-500/30">-</span>
+                <span id="day-badge" class="text-xs bg-rose-950/40 px-3 py-1 rounded-full uppercase tracking-wider font-bold border border-rose-400/30">-</span>
             </div>
 
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-slate-950/80 text-slate-300 uppercase text-[11px] tracking-wider border-b border-slate-800 font-bold">
-                            <th class="py-3 px-3 text-center border-r border-slate-800/80 w-14">Nr</th>
-                            <th class="py-3 px-3 text-center border-r border-slate-800/80 w-28">Abteilung</th>
-                            <th class="py-3 px-4 border-r border-slate-800/80">Fahrer / Beifahrer</th>
-                            <th class="py-3 px-4 border-r border-slate-800/80 w-36">Zeit</th>
-                            <th class="py-3 px-4 border-r border-slate-800/80">Information</th>
-                            <th class="py-3 px-3 text-center w-20 no-print">Aktion</th>
+                        <tr class="bg-slate-200 text-slate-900 uppercase text-xs tracking-wider border-b-2 border-slate-300 font-black">
+                            <th class="py-3.5 px-3 text-center border-r border-slate-300 w-16">Nr</th>
+                            <th class="py-3.5 px-4 text-center border-r border-slate-300 w-32">Abteilung</th>
+                            <th class="py-3.5 px-4 border-r border-slate-300 font-black">Fahrer / Beifahrer</th>
+                            <th class="py-3.5 px-4 border-r border-slate-300 w-36 font-black">Zeit</th>
+                            <th class="py-3.5 px-4 border-r border-slate-300 font-black">Information</th>
+                            <th class="py-3.5 px-3 text-center w-20 no-print font-black">Aktion</th>
                         </tr>
                     </thead>
-                    <tbody id="schedule-table-body" class="text-xs divide-y divide-slate-800/60">
+                    <tbody id="schedule-table-body" class="text-xs divide-y divide-slate-200">
                         <!-- Dynamisch -->
                     </tbody>
                 </table>
             </div>
 
             <!-- Rufumleitung -->
-            <div class="bg-slate-950 text-white p-3.5 font-bold text-sm md:text-base flex items-center justify-between border-t border-slate-800">
+            <div class="bg-rose-700 text-white p-4 font-bold text-sm md:text-base flex items-center justify-between border-t-2 border-rose-800 shadow-inner">
                 <div class="flex items-center gap-3 w-full">
-                    <span class="whitespace-nowrap text-rose-500"><i class="fa-solid fa-phone-volume mr-2"></i> Rufumleitung:</span>
-                    <input type="text" id="rufumleitung-input" onchange="updateRufumleitung(this.value)" class="bg-slate-900 text-white border border-slate-700 rounded-xl px-3.5 py-1.5 font-semibold text-xs md:text-sm w-full focus:outline-none focus:border-rose-500 transition shadow-inner" placeholder="Name eingeben...">
+                    <span class="whitespace-nowrap font-black tracking-wide"><i class="fa-solid fa-phone-volume mr-2"></i> Rufumleitung:</span>
+                    <input type="text" id="rufumleitung-input" onchange="updateRufumleitung(this.value)" class="bg-white text-slate-900 border-2 border-rose-400 rounded-xl px-4 py-1.5 font-bold text-sm w-full focus:outline-none focus:ring-2 focus:ring-white shadow" placeholder="Name eingeben...">
                 </div>
             </div>
 
@@ -101,9 +99,9 @@
     </div>
 
     <!-- Modals -->
-    <div id="entry-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 z-50 no-print">
-        <div class="bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-700">
-            <div class="bg-slate-950 text-white px-5 py-4 flex justify-between items-center border-b border-slate-800">
+    <div id="entry-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-200">
+            <div class="bg-slate-900 text-white px-5 py-4 flex justify-between items-center border-b border-slate-800">
                 <h3 id="modal-title" class="font-bold text-base text-white">Eintrag</h3>
                 <button onclick="closeModal()" class="text-slate-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
@@ -111,37 +109,37 @@
                 <input type="hidden" id="entry-id">
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-[11px] font-semibold uppercase text-slate-400 mb-1">Nummer (NR)</label>
-                        <input type="text" id="input-nr" required class="w-full bg-slate-950 text-white border border-slate-700 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none focus:border-rose-500">
+                        <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Nummer (NR)</label>
+                        <input type="text" id="input-nr" required class="w-full bg-slate-50 text-slate-900 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none focus:border-rose-600">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-semibold uppercase text-slate-400 mb-1">Abteilung</label>
-                        <input type="text" id="input-dept" required class="w-full bg-slate-950 text-white border border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-rose-500">
+                        <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Abteilung</label>
+                        <input type="text" id="input-dept" required class="w-full bg-slate-50 text-slate-900 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none focus:border-rose-600">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase text-slate-400 mb-1">Fahrer / Beifahrer</label>
-                    <input type="text" id="input-driver" required class="w-full bg-slate-950 text-white border border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-rose-500">
+                    <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Fahrer / Beifahrer</label>
+                    <input type="text" id="input-driver" required class="w-full bg-slate-50 text-slate-900 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:border-rose-600">
                 </div>
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase text-slate-400 mb-1">Zeit</label>
-                    <input type="text" id="input-time" required class="w-full bg-slate-950 text-white border border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-rose-500">
+                    <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Zeit</label>
+                    <input type="text" id="input-time" required class="w-full bg-slate-50 text-slate-900 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:border-rose-600">
                 </div>
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase text-slate-400 mb-1">Information</label>
-                    <input type="text" id="input-info" class="w-full bg-slate-950 text-white border border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-rose-500">
+                    <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Information</label>
+                    <input type="text" id="input-info" class="w-full bg-slate-50 text-slate-900 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:border-rose-600">
                 </div>
-                <div class="flex justify-end gap-2.5 pt-3 border-t border-slate-800">
-                    <button type="button" onclick="closeModal()" class="px-4 py-2 text-slate-400 hover:text-white text-xs font-medium transition">Abbrechen</button>
-                    <button type="submit" class="px-4.5 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-semibold transition shadow-lg shadow-rose-600/30">Speichern</button>
+                <div class="flex justify-end gap-2.5 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 text-slate-600 hover:text-slate-900 text-xs font-bold transition">Abbrechen</button>
+                    <button type="submit" class="px-4.5 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold transition shadow-md">Speichern</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="quick-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 z-50 no-print">
-        <div class="bg-slate-900 rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden border border-slate-700 flex flex-col max-h-[90vh]">
-            <div class="bg-gradient-to-r from-rose-900 to-rose-700 text-white px-5 py-4 flex justify-between items-center shrink-0 border-b border-rose-600/30">
+    <div id="quick-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print">
+        <div class="bg-slate-900 rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden border border-slate-800 flex flex-col max-h-[90vh]">
+            <div class="bg-gradient-to-r from-rose-800 to-rose-700 text-white px-5 py-4 flex justify-between items-center shrink-0">
                 <h3 class="font-bold text-base"><i class="fa-solid fa-list-check mr-2"></i> Schnell-Eingabe</h3>
                 <button onclick="closeQuickModal()" class="text-rose-200 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
@@ -149,9 +147,9 @@
                 <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">Tag auswählen:</span>
                 <div id="quick-modal-day-selector" class="flex flex-wrap gap-1.5"></div>
             </div>
-            <div class="p-5 space-y-2 overflow-y-auto custom-scroll flex-grow bg-slate-950/60" id="quick-rows-container"></div>
+            <div class="p-5 space-y-2 overflow-y-auto custom-scroll flex-grow bg-slate-950" id="quick-rows-container"></div>
             <div class="p-3.5 bg-slate-950 border-t border-slate-800 shrink-0">
-                <button type="button" onclick="addQuickRow()" class="w-full py-2.5 border-2 border-dashed border-slate-800 hover:border-rose-500 text-slate-400 hover:text-rose-400 rounded-xl font-medium text-xs transition bg-slate-900/50">
+                <button type="button" onclick="addQuickRow()" class="w-full py-2.5 border-2 border-dashed border-slate-800 hover:border-rose-600 text-slate-400 hover:text-rose-400 rounded-xl font-medium text-xs transition bg-slate-900/50">
                     + Weitere Zeile hinzufügen
                 </button>
             </div>
@@ -159,7 +157,7 @@
                 <span class="text-xs text-slate-400" id="quick-counter">0 Einträge</span>
                 <div class="flex gap-2.5">
                     <button type="button" onclick="closeQuickModal()" class="px-4 py-1.5 text-slate-300 hover:text-white text-xs font-medium">Abbrechen</button>
-                    <button type="button" onclick="saveQuickInput()" class="px-5 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-rose-600/30 transition">Speichern</button>
+                    <button type="button" onclick="saveQuickInput()" class="px-5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-semibold shadow transition">Speichern</button>
                 </div>
             </div>
         </div>
@@ -216,7 +214,7 @@
         const defaultData = {};
         days.forEach(d => { defaultData[d.id] = { rufumleitung: 'Sarkar', entries: JSON.parse(JSON.stringify(templateEntries)) }; });
 
-        const storageKey = `elite_tagesplan_dueren_v7_${days[0].date}`;
+        const storageKey = `elite_tagesplan_dueren_v9_${days[0].date}`;
         let appData = JSON.parse(localStorage.getItem(storageKey)) || defaultData;
 
         function saveData() { localStorage.setItem(storageKey, JSON.stringify(appData)); }
@@ -225,8 +223,8 @@
 
         function renderTabs() {
             document.getElementById('day-tabs').innerHTML = days.map(d => `
-                <button onclick="switchDay('${d.id}')" class="px-4 py-2 rounded-xl text-xs font-semibold transition whitespace-nowrap flex items-center gap-1.5 ${currentDayId === d.id ? 'bg-rose-600 text-white shadow-lg shadow-rose-600/30' : 'bg-slate-950/60 hover:bg-slate-800 text-slate-300 border border-slate-800'}">
-                    <span>${d.name}</span> <span class="text-[10px] opacity-75">(${d.date})</span>
+                <button onclick="switchDay('${d.id}')" class="px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap flex items-center gap-1.5 ${currentDayId === d.id ? 'bg-rose-600 text-white shadow-md' : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200'}">
+                    <span>${d.name}</span> <span class="text-[10px] opacity-80">(${d.date})</span>
                 </button>
             `).join('');
         }
@@ -246,30 +244,31 @@
             const entries = appData[currentDayId]?.entries || [];
 
             if (entries.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-slate-500">Keine Einträge für diesen Tag vorhanden.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-slate-400 font-semibold">Keine Einträge für diesen Tag vorhanden.</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = entries.map((e, index) => {
-                const rowBg = index % 2 === 0 ? 'bg-slate-900/40' : 'bg-slate-900/80';
-                const deptBg = (e.dept || '').trim().toUpperCase() === 'BTW' 
-                    ? 'bg-rose-950/80 text-rose-300 border border-rose-800/60 font-bold' 
-                    : 'bg-amber-500/20 text-amber-300 border border-amber-500/30 font-extrabold';
+                const rowBg = index % 2 === 0 ? 'bg-white' : 'bg-slate-50';
+                const deptVal = (e.dept || '').trim().toUpperCase();
+                const deptBg = deptVal === 'BTW' 
+                    ? 'bg-rose-800 text-white font-black shadow-sm' 
+                    : 'bg-amber-400 text-slate-950 font-black shadow-sm';
                 
                 return `
-                    <tr class="${rowBg} hover:bg-slate-800/50 transition-colors">
-                        <td class="py-2.5 px-3 text-center border-r border-slate-800/60">
-                            <span class="inline-flex items-center justify-center bg-slate-950 text-rose-400 font-black px-2.5 py-1 rounded-lg text-xs shadow-inner border border-slate-800">${e.nr}</span>
+                    <tr class="${rowBg} hover:bg-blue-50/60 transition-colors border-b border-slate-200">
+                        <td class="py-3 px-3 text-center border-r border-slate-200">
+                            <span class="inline-flex items-center justify-center bg-slate-900 text-white font-black px-3 py-1 rounded-lg text-xs shadow">${e.nr}</span>
                         </td>
-                        <td class="py-2.5 px-3 text-center border-r border-slate-800/60">
-                            <span class="px-2.5 py-1 ${deptBg} rounded-lg text-[10px] shadow-sm inline-block">${e.dept}</span>
+                        <td class="py-3 px-4 text-center border-r border-slate-200">
+                            <span class="px-3 py-1.5 ${deptBg} rounded-lg text-xs tracking-wide inline-block">${e.dept}</span>
                         </td>
-                        <td class="py-2.5 px-4 font-semibold text-slate-100 border-r border-slate-800/60">${e.driver}</td>
-                        <td class="py-2.5 px-4 border-r border-slate-800/60 text-slate-300 font-medium italic">${e.time}</td>
-                        <td class="py-2.5 px-4 border-r border-slate-800/60 text-slate-300 font-medium italic">${e.info || ''}</td>
-                        <td class="py-2.5 px-3 text-center no-print">
-                            <button onclick="openModal(${e.id})" class="text-slate-400 hover:text-rose-400 p-1.5 rounded-lg hover:bg-slate-800 transition"><i class="fa-solid fa-pen text-xs"></i></button>
-                            <button onclick="deleteEntry(${e.id})" class="text-slate-400 hover:text-rose-400 p-1.5 rounded-lg hover:bg-slate-800 transition ml-0.5"><i class="fa-solid fa-trash text-xs"></i></button>
+                        <td class="py-3 px-4 font-bold text-slate-900 border-r border-slate-200 text-sm">${e.driver}</td>
+                        <td class="py-3 px-4 border-r border-slate-200 text-slate-800 font-extrabold">${e.time}</td>
+                        <td class="py-3 px-4 border-r border-slate-200 text-slate-800 font-semibold">${e.info || ''}</td>
+                        <td class="py-3 px-3 text-center no-print">
+                            <button onclick="openModal(${e.id})" class="text-slate-500 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition" title="Bearbeiten"><i class="fa-solid fa-pen text-xs"></i></button>
+                            <button onclick="deleteEntry(${e.id})" class="text-slate-500 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition ml-0.5" title="Löschen"><i class="fa-solid fa-trash text-xs"></i></button>
                         </td>
                     </tr>
                 `;
@@ -394,12 +393,11 @@
             saveData(); closeQuickModal(); renderTable();
         }
 
-        // WhatsApp / Screenshot-Funktion
         function sendGroupWhatsApp() {
             const d = days.find(x => x.id === currentDayId);
             const element = document.getElementById('capture-area');
 
-            html2canvas(element, { scale: 2, backgroundColor: '#0f172a' }).then(canvas => {
+            html2canvas(element, { scale: 2, backgroundColor: '#ffffff' }).then(canvas => {
                 const imageURL = canvas.toDataURL('image/png');
                 
                 const downloadLink = document.createElement('a');
