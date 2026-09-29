@@ -19,9 +19,9 @@
         .custom-scroll::-webkit-scrollbar-track { background: #18181b; border-radius: 8px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 8px; }
         
-        /* Hintergrundbild mit dunklem Overlay für perfekte Lesbarkeit */
+        /* Hintergrundbild aus dem public-Ordner mit dunklem Overlay für perfekte Lesbarkeit */
         body {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), url('[cite: 2]data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/4QAiRXhpZgAATU0AKgAAAAgAAQESAAMAAAABAAEAAAAAAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYAAAAAAIQAABtbnRyUkdCIFhZWiAHHzAAIAABAAAAAAACABhjc3J0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAABhZ3VtAAAA3AAAACABn3B0AAABYAAAABRyVFJDAAABcAAAAAxnVFJDAAABcAAAAAxiVFJDAAABcAAAAAxkZXNjAAABFAAAAHJ3dHB0AAABkAAAABRjYXB0AAABpAAAAHN3dHB0AAAB5AAAABRjaGFwdAAAB7gAAAAsY3J3cAAACDwAAAA4aW50YQAAJFAAAAAueWFhcmEAAJJwAAAAIGRzaW5nAACKKAAAACBuZGluAACY4AAAABBpZHJ0AAAKJAAAAChkbW5kAAAKWAAAACBoZG1kAAAKfAAAACBsY2F0AAAKuAAAACBiHZpZXcAAALIAAAACGNtZ2EAAALcAAAADm5kaW4AAAL8AAAAGmJmY2QAAAMIAAAAGnJkY2QAAAMsAAAAHnJkZW4AAANQAAAADmZpbmUAADNoAAAAKD5tbmFtAADfaAAAAAZpbm5hAADmAAAAJGJtZ3QAAAPIAAAAIHNjYXJkAAAPeAAAADhhdXRvAAAPrAAAAA50ZXh0AAAAAExhcnJ5AAAAAEFkb2JlIAAtD... (eingebettetes Bild)');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), url('hintergrund.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -404,7 +404,7 @@
                 downloadLink.download = `Tagesplan_${d.name}_${d.date}.png`;
                 downloadLink.click();
 
-                // Textnachricht generieren (ohne störende Doppelpunkte bei leeren Zeiten)
+                // Textnachricht generieren
                 const entries = appData[currentDayId]?.entries || [];
                 let text = `👑 *ELITE TAGESPLAN DÜREN - ${d.name.toUpperCase()} (${d.date})* 👑\n\n`;
                 
