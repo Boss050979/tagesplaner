@@ -430,7 +430,9 @@
                 const downloadLink = document.createElement('a');
                 downloadLink.href = imageURL;
                 downloadLink.download = `Tagesplan_${d.name}_${d.date}.png`;
+                document.body.appendChild(downloadLink);
                 downloadLink.click();
+                document.body.removeChild(downloadLink);
 
                 // 2. Text zusammenstellen
                 const entries = appData[currentDayId]?.entries || [];
@@ -458,9 +460,7 @@
                 const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
                 document.getElementById('wa-direct-link').href = waUrl;
                 document.getElementById('whatsapp-info-box').classList.remove('hidden');
-
-                // Direkt versuchen zu öffnen
-                window.open(waUrl, '_blank');
+                document.getElementById('whatsapp-info-box').scrollIntoView({ behavior: 'smooth' });
             }).catch(err => {
                 console.error("Screenshot Fehler:", err);
                 alert("Fehler beim Erstellen des Bildes.");
