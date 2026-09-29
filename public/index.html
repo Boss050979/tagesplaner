@@ -27,9 +27,9 @@
 </head>
 <body class="bg-black min-h-screen text-slate-800 font-sans p-4 md:p-8">
 
-    <div class="max-w-6xl mx-auto space-y-6" id="capture-area">
+    <div class="max-w-6xl mx-auto space-y-6">
         
-        <!-- Header -->
+        <!-- Header (Wird für Screenshot ignoriert) -->
         <header class="bg-white rounded-2xl shadow-md p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-4 no-print border border-slate-300/60">
             <div class="flex items-center gap-3">
                 <div class="bg-rose-600 text-white p-3 rounded-xl text-xl shadow-md">
@@ -56,11 +56,11 @@
             </div>
         </header>
 
-        <!-- Wochentage -->
+        <!-- Wochentage (Wird für Screenshot ignoriert) -->
         <div class="bg-white rounded-2xl shadow-md p-3 no-print flex overflow-x-auto gap-2 border border-slate-300/60" id="day-tabs"></div>
 
-        <!-- Haupt-Tabelle -->
-        <main class="bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-300">
+        <!-- Haupt-Tabelle (HIER WIRD DER SCREENSHOT GEMACHT) -->
+        <main id="capture-area" class="bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-300">
             
             <div class="bg-gradient-to-r from-rose-700 to-rose-600 text-white py-4 px-6 text-center font-bold text-xl md:text-2xl tracking-wide flex justify-between items-center">
                 <span id="current-date-title">Laden...</span>
@@ -387,38 +387,56 @@
             saveData(); closeQuickModal(); renderTable();
         }
 
-        // WhatsApp / Screenshot-Funktion
+        // WhatsApp / Screenshot-Funktion (nur der Tabellen-Bereich)
         function sendGroupWhatsApp() {
             const d = days.find(x => x.id === currentDayId);
             const element = document.getElementById('capture-area');
 
-            // Erstellt einen Screenshot vom Container via html2canvas und bietet ihn zum Download an, öffnet danach WhatsApp mit Text
-            html2canvas(element, { scale: 2, backgroundColor: '#000000' }).then(canvas => {
+            html2canvas(element, { scale: 2, backgroundColor: '#ffffff' }).then(canvas => {
                 const imageURL = canvas.toDataURL('image/png');
                 
-                // Automatischer Bildupload-Download-Helper für den Nutzer
                 const downloadLink = document.createElement('a');
                 downloadLink.href = imageURL;
                 downloadLink.download = `Tagesplan_${d.name}_${d.date}.png`;
                 downloadLink.click();
 
-                // Textnachricht an WhatsApp übergeben
+                // Textnachricht generieren (ohne störende Doppelpunkte bei leeren Zeiten)
                 const entries = appData[currentDayId]?.entries || [];
                 let text = `👑 *ELITE TAGESPLAN DÜREN - ${d.name.toUpperCase()} (${d.date})* 👑\n\n`;
+                
                 entries.forEach(e => {
-                    text += `• *Nr. ${e.nr}* (${e.dept}) | ${e.driver} ${e.time !== ':' ? '| ⏰ ' + e.time : ''} ${e.info ? '| ℹ ' + e.info : ''}\n`;
+                    text += `• *Nr. ${e.nr}* (${e.dept}) | ${e.driver}`;
+                    
+                    if (e.time && e.time.trim() !== '' && e.time.trim() !== ':') {
+                        text += ` | ⏰ ${e.time}`;
+                    }
+                    
+                    if (e.info && e.info.trim() !== '') {
+                        text += ` | ℹ️ ${e.info}`;
+                    }
+                    
+                    text += `\n`;
                 });
+                
                 text += `\n📞 *Rufumleitung:* ${appData[currentDayId]?.rufumleitung || 'Keine'}`;
                 
                 window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
             }).catch(err => {
                 console.error("Screenshot Fehler:", err);
-                // Fallback, falls html2canvas blockiert wird
                 const entries = appData[currentDayId]?.entries || [];
                 let text = `👑 *ELITE TAGESPLAN DÜREN - ${d.name.toUpperCase()} (${d.date})* 👑\n\n`;
+                
                 entries.forEach(e => {
-                    text += `• *Nr. ${e.nr}* (${e.dept}) | ${e.driver} ${e.time !== ':' ? '| ⏰ ' + e.time : ''} ${e.info ? '| ℹ ' + e.info : ''}\n`;
+                    text += `• *Nr. ${e.nr}* (${e.dept}) | ${e.driver}`;
+                    if (e.time && e.time.trim() !== '' && e.time.trim() !== ':') {
+                        text += ` | ⏰ ${e.time}`;
+                    }
+                    if (e.info && e.info.trim() !== '') {
+                        text += ` | ℹ️ ${e.info}`;
+                    }
+                    text += `\n`;
                 });
+                
                 text += `\n📞 *Rufumleitung:* ${appData[currentDayId]?.rufumleitung || 'Keine'}`;
                 window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
             });
