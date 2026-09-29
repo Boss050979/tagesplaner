@@ -18,14 +18,22 @@
         .custom-scroll::-webkit-scrollbar { width: 6px; }
         .custom-scroll::-webkit-scrollbar-track { background: #18181b; border-radius: 8px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 8px; }
+        
+        /* Hintergrundbild mit dunklem Overlay für perfekte Lesbarkeit */
+        body {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), url('[cite: 2]data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/4QAiRXhpZgAATU0AKgAAAAgAAQESAAMAAAABAAEAAAAAAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYAAAAAAIQAABtbnRyUkdCIFhZWiAHHzAAIAABAAAAAAACABhjc3J0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAABhZ3VtAAAA3AAAACABn3B0AAABYAAAABRyVFJDAAABcAAAAAxnVFJDAAABcAAAAAxiVFJDAAABcAAAAAxkZXNjAAABFAAAAHJ3dHB0AAABkAAAABRjYXB0AAABpAAAAHN3dHB0AAAB5AAAABRjaGFwdAAAB7gAAAAsY3J3cAAACDwAAAA4aW50YQAAJFAAAAAueWFhcmEAAJJwAAAAIGRzaW5nAACKKAAAACBuZGluAACY4AAAABBpZHJ0AAAKJAAAAChkbW5kAAAKWAAAACBoZG1kAAAKfAAAACBsY2F0AAAKuAAAACBiHZpZXcAAALIAAAACGNtZ2EAAALcAAAADm5kaW4AAAL8AAAAGmJmY2QAAAMIAAAAGnJkY2QAAAMsAAAAHnJkZW4AAANQAAAADmZpbmUAADNoAAAAKD5tbmFtAADfaAAAAAZpbm5hAADmAAAAJGJtZ3QAAAPIAAAAIHNjYXJkAAAPeAAAADhhdXRvAAAPrAAAAA50ZXh0AAAAAExhcnJ5AAAAAEFkb2JlIAAtD... (eingebettetes Bild)');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
     </style>
 </head>
-<body class="bg-black min-h-screen text-slate-800 font-sans p-3 md:p-6">
+<body class="min-h-screen text-slate-800 font-sans p-3 md:p-6">
 
     <div class="max-w-6xl mx-auto space-y-4">
         
         <!-- Header (Wird für Screenshot ignoriert) -->
-        <header class="bg-white rounded-2xl shadow-md p-4 flex flex-col md:flex-row justify-between items-center gap-4 no-print border border-slate-300/60">
+        <header class="bg-white/95 backdrop-blur-md rounded-2xl shadow-md p-4 flex flex-col md:flex-row justify-between items-center gap-4 no-print border border-slate-300/60">
             <div class="flex items-center gap-3">
                 <div class="bg-rose-600 text-white p-2.5 rounded-xl text-lg shadow-md">
                     <i class="fa-solid fa-calendar-days"></i>
@@ -52,7 +60,7 @@
         </header>
 
         <!-- Wochentage (Wird für Screenshot ignoriert) -->
-        <div class="bg-white rounded-2xl shadow-md p-2.5 no-print flex overflow-x-auto gap-2 border border-slate-300/60" id="day-tabs"></div>
+        <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-md p-2.5 no-print flex overflow-x-auto gap-2 border border-slate-300/60" id="day-tabs"></div>
 
         <!-- Haupt-Tabelle (HIER WIRD DER SCREENSHOT GEMACHT) -->
         <main id="capture-area" class="bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-300">
