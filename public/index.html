@@ -389,21 +389,20 @@
             saveData(); closeQuickModal(); renderTable();
         }
 
-        // WhatsApp / Screenshot-Funktion (direkter Download + Text-Öffnung)
+        // WhatsApp / Screenshot-Funktion mit Diagnose-Test
         function sendGroupWhatsApp() {
-            const d = days.find(x => x.id === currentDayId);
-            const element = document.getElementById('capture-area');
+            alert("Button wurde geklickt!"); // Test-Alert
 
-            html2canvas(element, { scale: 2, backgroundColor: '#ffffff' }).then(canvas => {
-                const imageURL = canvas.toDataURL('image/png');
-                
-                // Screenshot direkt herunterladen
-                const downloadLink = document.createElement('a');
-                downloadLink.href = imageURL;
-                downloadLink.download = `Tagesplan_${d.name}_${d.date}.png`;
-                downloadLink.click();
+            try {
+                const d = days.find(x => x.id === currentDayId);
+                const element = document.getElementById('capture-area');
 
-                // Text für WhatsApp zusammenbauen
+                if (!element) {
+                    alert("Fehler: capture-area nicht gefunden!");
+                    return;
+                }
+
+                // Text für WhatsApp vorbereiten
                 const entries = appData[currentDayId]?.entries || [];
                 let text = `👑 *ELITE TAGESPLAN DÜREN - ${d.name.toUpperCase()} (${d.date})* 👑\n\n`;
                 
@@ -419,13 +418,27 @@
                 });
                 
                 text += `\n📞 *Rufumleitung:* ${appData[currentDayId]?.rufumleitung || 'Keine'}`;
-                
-                // WhatsApp-Chat öffnen
+
+                // WhatsApp-Fenster direkt öffnen
                 window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
-            }).catch(err => {
-                console.error("Screenshot Fehler:", err);
-                alert("Fehler beim Erstellen des Screenshots.");
-            });
+
+                // Screenshot versuchen
+                if (typeof html2canvas !== 'undefined') {
+                    html2canvas(element, { scale: 2, backgroundColor: '#ffffff' }).then(canvas => {
+                        const imageURL = canvas.toDataURL('image/png');
+                        const downloadLink = document.createElement('a');
+                        downloadLink.href = imageURL;
+                        downloadLink.download = `Tagesplan_${d.name}_${d.date}.png`;
+                        downloadLink.click();
+                    }).catch(err => {
+                        console.error("Screenshot-Fehler:", err);
+                    });
+                } else {
+                    console.warn("html2canvas ist nicht geladen.");
+                }
+            } catch (e) {
+                alert("JavaScript Fehler: " + e.message);
+            }
         }
     </script>
 </body>
