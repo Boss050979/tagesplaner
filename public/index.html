@@ -16,82 +16,82 @@
             body { background: white !important; }
         }
         .custom-scroll::-webkit-scrollbar { width: 6px; }
-        .custom-scroll::-webkit-scrollbar-track { background: #18181b; border-radius: 8px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 8px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
         
-        /* Perfekter, eleganter Dark-Gradient-Hintergrund, der zum Design passt */
+        /* Harmonischer, heller Hintergrund, der perfekt zum hellen Design passt */
         body {
-            background: linear-gradient(135deg, #09090b 0%, #18181b 50%, #27272a 100%);
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
             background-attachment: fixed;
             min-height: 100vh;
         }
     </style>
 </head>
-<body class="text-slate-800 font-sans p-3 md:p-6">
+<body class="text-slate-800 font-sans p-3 md:p-6"[cite: 1]>
 
-    <div class="max-w-6xl mx-auto space-y-4">
+    <div class="max-w-6xl mx-auto space-y-4"[cite: 1]>
         
         <!-- Header -->
-        <header class="bg-white/95 backdrop-blur-md rounded-2xl shadow-md p-4 flex flex-col md:flex-row justify-between items-center gap-4 no-print border border-slate-300/60">
-            <div class="flex items-center gap-3">
-                <div class="bg-rose-600 text-white p-2.5 rounded-xl text-lg shadow-md">
-                    <i class="fa-solid fa-calendar-days"></i>
+        <header class="bg-white/95 backdrop-blur-md rounded-2xl shadow-md p-4 flex flex-col md:flex-row justify-between items-center gap-4 no-print border border-slate-300/60"[cite: 1]>
+            <div class="flex items-center gap-3"[cite: 1]>
+                <div class="bg-rose-600 text-white p-2.5 rounded-xl text-lg shadow-md"[cite: 1]>
+                    <i class="fa-solid fa-calendar-days"[cite: 1]></i>
                 </div>
                 <div>
-                    <h1 class="text-lg md:text-xl font-bold text-slate-900">Elite Tagesplan Düren</h1>
+                    <h1 class="text-lg md:text-xl font-bold text-slate-900"[cite: 1]>Elite Tagesplan Düren</h1>
                 </div>
             </div>
 
-            <div class="flex flex-wrap items-center gap-2">
-                <button onclick="openQuickModal()" class="bg-rose-600 hover:bg-rose-700 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-list-check"></i> Schnell-Eingabe
+            <div class="flex flex-wrap items-center gap-2"[cite: 1]>
+                <button onclick="openQuickModal()" class="bg-rose-600 hover:bg-rose-700 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2"[cite: 1]>
+                    <i class="fa-solid fa-list-check"[cite: 1]></i> Schnell-Eingabe
                 </button>
-                <button onclick="sendGroupWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-base"></i> Dienstplan senden
+                <button onclick="sendGroupWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2"[cite: 1]>
+                    <i class="fa-brands fa-whatsapp text-base"[cite: 1]></i> Dienstplan senden
                 </button>
-                <button onclick="window.print()" class="bg-slate-800 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-print"></i> Drucken
+                <button onclick="window.print()" class="bg-slate-800 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2"[cite: 1]>
+                    <i class="fa-solid fa-print"[cite: 1]></i> Drucken
                 </button>
-                <button onclick="openModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-plus"></i> Neuer Eintrag
+                <button onclick="openModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2"[cite: 1]>
+                    <i class="fa-solid fa-plus"[cite: 1]></i> Neuer Eintrag
                 </button>
             </div>
         </header>
 
         <!-- Wochentage -->
-        <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-md p-2.5 no-print flex overflow-x-auto gap-2 border border-slate-300/60" id="day-tabs"></div>
+        <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-md p-2.5 no-print flex overflow-x-auto gap-2 border border-slate-300/60" id="day-tabs"[cite: 1]></div>
 
         <!-- Haupt-Tabelle -->
-        <main id="capture-area" class="bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-300">
+        <main id="capture-area" class="bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-300"[cite: 1]>
             
-            <div class="bg-gradient-to-r from-rose-700 to-rose-600 text-white py-3 px-5 text-center font-bold text-lg md:text-xl tracking-wide flex justify-between items-center">
-                <span id="current-date-title">Laden...</span>
-                <span id="day-badge" class="text-[10px] bg-rose-900/50 px-2.5 py-0.5 rounded-full uppercase tracking-wider font-semibold">-</span>
+            <div class="bg-gradient-to-r from-rose-700 to-rose-600 text-white py-3 px-5 text-center font-bold text-lg md:text-xl tracking-wide flex justify-between items-center"[cite: 1]>
+                <span id="current-date-title"[cite: 1]>Laden...</span>
+                <span id="day-badge" class="text-[10px] bg-rose-900/50 px-2.5 py-0.5 rounded-full uppercase tracking-wider font-semibold"[cite: 1]>-</span>
             </div>
 
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-slate-200 text-slate-900 uppercase text-[11px] tracking-wider border-b border-slate-300 font-bold">
-                            <th class="py-2.5 px-3 text-center border-r border-slate-300 w-12">Nr</th>
-                            <th class="py-2.5 px-3 text-center border-r border-slate-300 w-24">Abteilung</th>
-                            <th class="py-2.5 px-3 border-r border-slate-300">Fahrer / Beifahrer</th>
-                            <th class="py-2.5 px-3 border-r border-slate-300 w-36">Zeit</th>
-                            <th class="py-2.5 px-3 border-r border-slate-300">Information</th>
-                            <th class="py-2.5 px-3 text-center w-20 no-print">Aktion</th>
+            <div class="overflow-x-auto"[cite: 1]>
+                <table class="w-full text-left border-collapse"[cite: 1]>
+                    <thead[cite: 1]>
+                        <tr class="bg-slate-200 text-slate-900 uppercase text-[11px] tracking-wider border-b border-slate-300 font-bold"[cite: 1]>
+                            <th class="py-2.5 px-3 text-center border-r border-slate-300 w-12"[cite: 1]>Nr</th>
+                            <th class="py-2.5 px-3 text-center border-r border-slate-300 w-24"[cite: 1]>Abteilung</th>
+                            <th class="py-2.5 px-3 border-r border-slate-300"[cite: 1]>Fahrer / Beifahrer</th>
+                            <th class="py-2.5 px-3 border-r border-slate-300 w-36"[cite: 1]>Zeit</th>
+                            <th class="py-2.5 px-3 border-r border-slate-300"[cite: 1]>Information</th>
+                            <th class="py-2.5 px-3 text-center w-20 no-print"[cite: 1]>Aktion</th>
                         </tr>
                     </thead>
-                    <tbody id="schedule-table-body" class="text-xs">
+                    <tbody id="schedule-table-body" class="text-xs"[cite: 1]>
                         <!-- Dynamisch -->
                     </tbody>
                 </table>
             </div>
 
             <!-- Rufumleitung -->
-            <div class="bg-rose-600 text-white p-3 font-bold text-sm md:text-base flex items-center justify-between">
-                <div class="flex items-center gap-3 w-full">
-                    <span class="whitespace-nowrap"><i class="fa-solid fa-phone-volume mr-2"></i> Rufumleitung:</span>
-                    <input type="text" id="rufumleitung-input" onchange="updateRufumleitung(this.value)" class="bg-white text-slate-900 border border-rose-400 rounded-lg px-3 py-1 font-semibold text-xs md:text-sm w-full focus:outline-none" placeholder="Name eingeben...">
+            <div class="bg-rose-600 text-white p-3 font-bold text-sm md:text-base flex items-center justify-between"[cite: 1]>
+                <div class="flex items-center gap-3 w-full"[cite: 1]>
+                    <span class="whitespace-nowrap"[cite: 1]><i class="fa-solid fa-phone-volume mr-2"[cite: 1]></i> Rufumleitung:</span>
+                    <input type="text" id="rufumleitung-input" onchange="updateRufumleitung(this.value)" class="bg-white text-slate-900 border border-rose-400 rounded-lg px-3 py-1 font-semibold text-xs md:text-sm w-full focus:outline-none" placeholder="Name eingeben..."[cite: 1]>
                 </div>
             </div>
 
@@ -99,65 +99,65 @@
     </div>
 
     <!-- Modals -->
-    <div id="entry-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-200">
-            <div class="bg-slate-900 text-white px-5 py-3.5 flex justify-between items-center">
-                <h3 id="modal-title" class="font-bold text-base">Eintrag</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+    <div id="entry-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print"[cite: 1]>
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-200"[cite: 1]>
+            <div class="bg-slate-900 text-white px-5 py-3.5 flex justify-between items-center"[cite: 1]>
+                <h3 id="modal-title" class="font-bold text-base"[cite: 1]>Eintrag</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white"[cite: 1]><i class="fa-solid fa-xmark text-base"[cite: 1]></i></button>
             </div>
-            <form id="entry-form" onsubmit="saveEntry(event)" class="p-5 space-y-3.5">
-                <input type="hidden" id="entry-id">
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Nummer (NR)</label>
-                        <input type="text" id="input-nr" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold">
+            <form id="entry-form" onsubmit="saveEntry(event)" class="p-5 space-y-3.5"[cite: 1]>
+                <input type="hidden" id="entry-id"[cite: 1]>
+                <div class="grid grid-cols-2 gap-3"[cite: 1]>
+                    <div[cite: 1]>
+                        <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1"[cite: 1]>Nummer (NR)</label>
+                        <input type="text" id="input-nr" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold"[cite: 1]>
                     </div>
-                    <div>
-                        <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Abteilung</label>
-                        <input type="text" id="input-dept" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs">
+                    <div[cite: 1]>
+                        <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1"[cite: 1]>Abteilung</label>
+                        <input type="text" id="input-dept" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"[cite: 1]>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Fahrer / Beifahrer</label>
-                    <input type="text" id="input-driver" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs">
+                <div[cite: 1]>
+                    <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1"[cite: 1]>Fahrer / Beifahrer</label>
+                    <input type="text" id="input-driver" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"[cite: 1]>
                 </div>
-                <div>
-                    <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Zeit</label>
-                    <input type="text" id="input-time" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs">
+                <div[cite: 1]>
+                    <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1"[cite: 1]>Zeit</label>
+                    <input type="text" id="input-time" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"[cite: 1]>
                 </div>
-                <div>
-                    <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Information</label>
-                    <input type="text" id="input-info" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs">
+                <div[cite: 1]>
+                    <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1"[cite: 1]>Information</label>
+                    <input type="text" id="input-info" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"[cite: 1]>
                 </div>
-                <div class="flex justify-end gap-2.5 pt-3 border-t border-slate-100">
-                    <button type="button" onclick="closeModal()" class="px-3.5 py-2 text-slate-600 text-xs">Abbrechen</button>
-                    <button type="submit" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-medium">Speichern</button>
+                <div class="flex justify-end gap-2.5 pt-3 border-t border-slate-100"[cite: 1]>
+                    <button type="button" onclick="closeModal()" class="px-3.5 py-2 text-slate-600 text-xs"[cite: 1]>Abbrechen</button>
+                    <button type="submit" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-medium"[cite: 1]>Speichern</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="quick-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print">
-        <div class="bg-slate-900 rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden border border-slate-800 flex flex-col max-h-[90vh]">
-            <div class="bg-gradient-to-r from-rose-800 to-rose-700 text-white px-5 py-3.5 flex justify-between items-center shrink-0">
-                <h3 class="font-bold text-base"><i class="fa-solid fa-list-check mr-2"></i> Schnell-Eingabe</h3>
-                <button onclick="closeQuickModal()" class="text-rose-200 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+    <div id="quick-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print"[cite: 1]>
+        <div class="bg-slate-900 rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden border border-slate-800 flex flex-col max-h-[90vh]"[cite: 1]>
+            <div class="bg-gradient-to-r from-rose-800 to-rose-700 text-white px-5 py-3.5 flex justify-between items-center shrink-0"[cite: 1]>
+                <h3 class="font-bold text-base"[cite: 1]><i class="fa-solid fa-list-check mr-2"[cite: 1]></i> Schnell-Eingabe</h3>
+                <button onclick="closeQuickModal()" class="text-rose-200 hover:text-white"[cite: 1]><i class="fa-solid fa-xmark text-lg"[cite: 1]></i></button>
             </div>
-            <div class="bg-slate-950 px-5 py-2.5 border-b border-slate-800 flex items-center justify-between flex-wrap gap-2 shrink-0">
-                <span class="text-[11px] font-semibold text-slate-400 uppercase">Tag auswählen:</span>
-                <div id="quick-modal-day-selector" class="flex flex-wrap gap-1.5"></div>
+            <div class="bg-slate-950 px-5 py-2.5 border-b border-slate-800 flex items-center justify-between flex-wrap gap-2 shrink-0"[cite: 1]>
+                <span class="text-[11px] font-semibold text-slate-400 uppercase"[cite: 1]>Tag auswählen:</span>
+                <div id="quick-modal-day-selector" class="flex flex-wrap gap-1.5"[cite: 1]></div>
             </div>
-            <div class="p-5 space-y-2 overflow-y-auto custom-scroll flex-grow bg-slate-950" id="quick-rows-container"></div>
-            <div class="p-3.5 bg-slate-950 border-t border-slate-800 shrink-0">
-                <button type="button" onclick="addQuickRow()" class="w-full py-2 border-2 border-dashed border-slate-800 hover:border-rose-600 text-slate-400 hover:text-rose-400 rounded-xl font-medium text-xs transition">
+            <div class="p-5 space-y-2 overflow-y-auto custom-scroll flex-grow bg-slate-950" id="quick-rows-container"[cite: 1]></div>
+            <div class="p-3.5 bg-slate-950 border-t border-slate-800 shrink-0"[cite: 1]>
+                <button type="button" onclick="addQuickRow()" class="w-full py-2 border-2 border-dashed border-slate-800 hover:border-rose-600 text-slate-400 hover:text-rose-400 rounded-xl font-medium text-xs transition"[cite: 1]>
                     + Weitere Zeile hinzufügen
                 </button>
             </div>
-            <div class="bg-slate-900 px-5 py-3.5 border-t border-slate-800 flex justify-between items-center shrink-0">
-                <span class="text-xs text-slate-400" id="quick-counter">0 Einträge</span>
-                <div class="flex gap-2.5">
-                    <button type="button" onclick="closeQuickModal()" class="px-4 py-1.5 text-slate-300 text-xs">Abbrechen</button>
-                    <button type="button" onclick="saveQuickInput()" class="px-5 py-1.5 bg-rose-600 text-white rounded-xl text-xs font-medium">Speichern</button>
+            <div class="bg-slate-900 px-5 py-3.5 border-t border-slate-800 flex justify-between items-center shrink-0"[cite: 1]>
+                <span class="text-xs text-slate-400" id="quick-counter"[cite: 1]>0 Einträge</span>
+                <div class="flex gap-2.5"[cite: 1]>
+                    <button type="button" onclick="closeQuickModal()" class="px-4 py-1.5 text-slate-300 text-xs"[cite: 1]>Abbrechen</button>
+                    <button type="button" onclick="saveQuickInput()" class="px-5 py-1.5 bg-rose-600 text-white rounded-xl text-xs font-medium"[cite: 1]>Speichern</button>
                 </div>
             </div>
         </div>
