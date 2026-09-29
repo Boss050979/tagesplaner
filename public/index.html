@@ -389,7 +389,7 @@
             saveData(); closeQuickModal(); renderTable();
         }
 
-        // WhatsApp / Screenshot-Funktion
+        // WhatsApp / Screenshot-Funktion mit Zwischenablage (Option 1)
         function sendGroupWhatsApp() {
             const d = days.find(x => x.id === currentDayId);
             const element = document.getElementById('capture-area');
@@ -399,7 +399,7 @@
                 return;
             }
 
-            // Text für WhatsApp vorbereiten
+            // 1. Text für WhatsApp vorbereiten und WhatsApp-Fenster öffnen
             const entries = appData[currentDayId]?.entries || [];
             let text = `👑 *ELITE TAGESPLAN DÜREN - ${d.name.toUpperCase()} (${d.date})* 👑\n\n`;
             
@@ -416,28 +416,32 @@
             
             text += `\n📞 *Rufumleitung:* ${appData[currentDayId]?.rufumleitung || 'Keine'}`;
 
-            // WhatsApp-Fenster direkt öffnen
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
 
-            // Screenshot mit Fehlerbehandlung versuchen
+            // 2. Screenshot machen und direkt in die Zwischenablage kopieren
             if (typeof html2canvas !== 'undefined') {
                 html2canvas(element, { 
                     scale: 2, 
                     backgroundColor: '#ffffff',
                     useCORS: true 
                 }).then(canvas => {
-                    const imageURL = canvas.toDataURL('image/png');
-                    const downloadLink = document.createElement('a');
-                    downloadLink.href = imageURL;
-                    downloadLink.download = `Tagesplan_${d.name}_${d.date}.png`;
-                    document.body.appendChild(downloadLink);
-                    downloadLink.click();
-                    document.body.removeChild(downloadLink);
-                }).catch(err => {
-                    console.error("Screenshot-Fehler Detail:", err);
+                    canvas.toBlob(blob => {
+                        try {
+                            const item = new ClipboardItem({ 'image/png': blob });
+                            navigator.clipboard.write([item]).then(() => {
+                                alert("✅ WhatsApp-Text geöffnet & Bild in Zwischenablage kopiert!\n\nGehe jetzt in den WhatsApp-Chat und drücke STRG + V (Einfügen), um das Bild direkt zu senden.");
+                            });
+                        } catch (err) {
+                            console.error("Zwischenablage-Fehler:", err);
+                            // Fallback falls der Browser es blockiert: Direkt als Download speichern
+                            const imageURL = canvas.toDataURL('image/png');
+                            const downloadLink = document.createElement('a');
+                            downloadLink.href = imageURL;
+                            downloadLink.download = `Tagesplan_${d.name}_${d.date}.png`;
+                            downloadLink.click();
+                        }
+                    });
                 });
-            } else {
-                console.warn("html2canvas ist nicht geladen.");
             }
         }
     </script>
