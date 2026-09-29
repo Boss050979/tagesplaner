@@ -105,7 +105,7 @@
                 <button onclick="closePreviewModal()" class="text-emerald-200 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="p-4 bg-slate-950 overflow-y-auto custom-scroll flex-grow text-center">
-                <p class="text-xs text-slate-300 mb-3">Bild & Tag sind kopiert! WhatsApp Desktop öffnet sich. Drücke im Chat zweimal <strong class="text-emerald-400">Strg + V</strong> (1x Text, 1x Bild):</p>
+                <p class="text-xs text-slate-300 mb-3">Das Bild wurde heruntergeladen und der Text liegt in der Zwischenablage! Klicke unten, um WhatsApp zu starten:</p>
                 <div id="preview-container" class="inline-block border border-slate-700 rounded-lg overflow-hidden shadow-lg max-h-56 bg-white">
                     <!-- Bild wird hier eingefügt -->
                 </div>
@@ -114,10 +114,10 @@
                 <button type="button" onclick="closePreviewModal()" class="px-4 py-2 text-slate-400 hover:text-white text-xs">Abbrechen</button>
                 <div class="flex gap-2">
                     <button type="button" onclick="downloadImageDirect()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-medium flex items-center gap-1.5">
-                        <i class="fa-solid fa-download"></i> Herunterladen
+                        <i class="fa-solid fa-download"></i> Bild nochmal laden
                     </button>
-                    <button type="button" onclick="copyAndOpenWhatsApp()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-md">
-                        <i class="fa-brands fa-whatsapp text-base"></i> Kopieren & WhatsApp Desktop öffnen
+                    <button type="button" onclick="autoSendWhatsApp()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-md">
+                        <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp öffnen & Senden starten
                     </button>
                 </div>
             </div>
@@ -461,36 +461,24 @@
             document.getElementById('preview-modal').classList.add('hidden');
         }
 
-        // Schritt 2: Bild + Text in Zwischenablage und WhatsApp Desktop-App aufrufen
-        function copyAndOpenWhatsApp() {
+        // Schritt 2: Automatischer Download des Bildes + Text in Zwischenablage + WhatsApp öffnen
+        function autoSendWhatsApp() {
             if (!generatedCanvas || !currentDayData) return;
 
-            generatedCanvas.toBlob(blob => {
-                try {
-                    const item = new ClipboardItem({ 'image/png': blob });
-                    navigator.clipboard.write([item]).then(() => {
-                        triggerWhatsAppOpen();
-                    }).catch(err => {
-                        console.error(err);
-                        downloadImageDirect();
-                    });
-                } catch (err) {
-                    console.error(err);
-                    downloadImageDirect();
-                }
-            });
-        }
+            // 1. Bild direkt automatisch herunterladen
+            const imageURL = generatedCanvas.toDataURL('image/png');
+            const downloadLink = document.createElement('a');
+            downloadLink.href = imageURL;
+            downloadLink.download = `Tagesplan_${currentDayData.name}_${currentDayData.date}.png`;
+            downloadLink.click();
 
-        function triggerWhatsAppOpen() {
-            const d = currentDayData;
-            const text = `*${d.name}, ${d.date}*`;
-
-            // Tag-Text in die Zwischenablage kopieren
+            // 2. Datum/Tag-Text in die Zwischenablage kopieren
+            const text = `*${currentDayData.name}, ${currentDayData.date}*`;
             navigator.clipboard.writeText(text).catch(err => console.log(err));
 
-            // Startet die installierte WhatsApp Desktop-App direkt auf dem PC
+            // 3. WhatsApp Desktop-App aufrufen
             window.location.href = 'whatsapp://';
-            
+
             closePreviewModal();
         }
 
@@ -501,7 +489,6 @@
             downloadLink.href = imageURL;
             downloadLink.download = `Tagesplan_${currentDayData.name}_${currentDayData.date}.png`;
             downloadLink.click();
-            closePreviewModal();
         }
     </script>
 </body>
