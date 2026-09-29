@@ -242,14 +242,13 @@
             }
 
             tbody.innerHTML = entries.map((e, index) => {
-                // Direkter Inline-Style erzwingt das absolut zuverlässige Zebra-Muster (Weiß / Hellgrau #f8fafc)
                 const bgColor = index % 2 === 0 ? '#ffffff' : '#f8fafc';
                 const deptBg = (e.dept || '').trim().toUpperCase() === 'BTW' ? 'bg-rose-900 text-rose-100 font-bold' : 'bg-amber-500 text-slate-950 font-extrabold';
                 
                 return `
                     <tr class="border-b border-slate-300" style="background-color: ${bgColor};">
                         <td class="py-2 px-3 text-center border-r border-slate-300" style="background-color: ${bgColor};">
-                            <span class="inline-flex items-center justify-center bg-slate-200 text-slate-950 font-extrabold px-2 py-0.5 rounded text-[11px] shadow-sm">${e.nr}</span>
+                            <span class="inline-flex items-center justify-center bg-slate-200 text-rose-600 font-black px-2 py-0.5 rounded text-[11px] shadow-sm">${e.nr}</span>
                         </td>
                         <td class="py-2 px-3 text-center border-r border-slate-300" style="background-color: ${bgColor};">
                             <span class="px-2 py-0.5 ${deptBg} rounded text-[10px] shadow-sm">${e.dept}</span>
@@ -349,7 +348,7 @@
             const entries = appData[quickModalDayId]?.entries || [];
             document.getElementById('quick-rows-container').innerHTML = entries.map(e => `
                 <div class="quick-row-item bg-slate-900 p-2 rounded-xl border border-slate-800 grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
-                    <input type="text" class="q-nr col-span-2 bg-slate-100 text-slate-950 font-extrabold px-2.5 py-1 text-xs rounded text-center" value="${e.nr || ''}">
+                    <input type="text" class="q-nr col-span-2 bg-slate-100 text-rose-600 font-black px-2.5 py-1 text-xs rounded text-center" value="${e.nr || ''}">
                     <input type="text" class="q-dept col-span-2 bg-slate-950 text-white font-bold px-2.5 py-1 text-xs rounded text-center uppercase" value="${e.dept || ''}">
                     <input type="text" class="q-driver col-span-3 bg-slate-950 text-white px-2.5 py-1 text-xs rounded" value="${e.driver || ''}">
                     <input type="text" class="q-time col-span-2 bg-slate-950 text-white font-bold px-2.5 py-1 text-xs rounded text-center" value="${e.time || ':'}">
