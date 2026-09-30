@@ -61,9 +61,9 @@
                     Schnell-Eingabe
                 </button>
 
-                <button type="button" onclick="sendGroupWhatsAppDirect()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
+                <button type="button" onclick="sendGroupWhatsAppDirect()" title="Bild kopieren und WhatsApp öffnen" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
                     <i class="fa-brands fa-whatsapp text-base" aria-hidden="true"></i>
-                    Dienstplan senden
+                    Dienstplan kopieren / WhatsApp
                 </button>
 
                 <button type="button" onclick="window.print()" class="bg-slate-800 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
@@ -841,24 +841,93 @@
                     useCORS: true
                 });
 
-                const imageURL = canvas.toDataURL('image/png');
+                const blob = await new Promise(resolve => {
+                    canvas.toBlob(resolve, 'image/png');
+                });
 
+                if (!blob) {
+                    throw new Error('PNG konnte nicht erzeugt werden.');
+                }
+
+                /*
+                 * Das Bild direkt in die Zwischenablage kopieren.
+                 *
+                 * Voraussetzung:
+                 * - moderner Browser mit Clipboard API
+                 * - die Seite muss in einem sicheren Kontext laufen
+                 *   (HTTPS oder localhost)
+                 * - der Aufruf erfolgt durch eine Benutzeraktion
+                 */
+                let copiedToClipboard = false;
+
+                if (
+                    navigator.clipboard &&
+                    typeof ClipboardItem !== 'undefined' &&
+                    window.isSecureContext
+                ) {
+                    try {
+                        const clipboardItem = new ClipboardItem({
+                            'image/png': blob
+                        });
+
+                        await navigator.clipboard.write([clipboardItem]);
+                        copiedToClipboard = true;
+                    } catch (clipboardError) {
+                        console.warn(
+                            'Kopieren in die Zwischenablage fehlgeschlagen:',
+                            clipboardError
+                        );
+                    }
+                }
+
+                /*
+                 * Zusätzlich weiterhin als PNG herunterladen.
+                 * So geht das Bild nicht verloren, falls Clipboard nicht
+                 * verfügbar ist.
+                 */
+                const imageURL = URL.createObjectURL(blob);
                 const downloadLink = document.createElement('a');
                 downloadLink.href = imageURL;
                 downloadLink.download =
                     `Tagesplan_${day.name}_${day.date}.png`;
+
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 downloadLink.remove();
 
+                setTimeout(() => URL.revokeObjectURL(imageURL), 1000);
+
+                /*
+                 * WhatsApp öffnen.
+                 * Das Bild selbst kann eine Webseite nicht automatisch
+                 * in den WhatsApp-Chat einfügen oder absenden.
+                 * Nach dem Öffnen kann es mit Strg+V eingefügt werden.
+                 */
                 const text = `*${day.name}, ${day.date}*`;
                 const whatsappUrl =
                     `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
 
                 window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+
+                if (copiedToClipboard) {
+                    alert(
+                        'Der Dienstplan wurde in die Zwischenablage kopiert.\n\n' +
+                        'Öffne den gewünschten WhatsApp-Chat und drücke STRG + V, ' +
+                        'um das Bild einzufügen.'
+                    );
+                } else {
+                    alert(
+                        'Das Bild konnte nicht automatisch in die Zwischenablage kopiert werden.\n\n' +
+                        'Die PNG-Datei wurde heruntergeladen. Bitte füge sie in WhatsApp manuell ein.'
+                    );
+                }
+
             } catch (error) {
-                console.error('Screenshot-Fehler:', error);
-                alert('Fehler beim Erstellen des Bildes.');
+                console.error('Fehler beim Erstellen/Kopieren des Dienstplans:', error);
+                alert(
+                    'Der Dienstplan konnte nicht erstellt werden.\n\n' +
+                    'Details: ' + (error.message || error)
+                );
             }
         }
 
