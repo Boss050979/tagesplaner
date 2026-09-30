@@ -904,21 +904,18 @@
                 const text = `*${day.name}, ${day.date}*`;
                 const whatsappUrl =
                     `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
-                window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 
                 if (copiedToClipboard) {
-                    alert(
-                        'Fertig!\n\n' +
-                        'Der Dienstplan wurde als Bild in die Zwischenablage kopiert.\n' +
-                        'Öffne den gewünschten WhatsApp-Chat und drücke STRG + V, um das Bild einzufügen.\n\n' +
-                        'Zusätzlich wurde eine PNG-Datei als Sicherung heruntergeladen.'
-                    );
+                    // Kurze Bestätigung zuerst anzeigen; danach WhatsApp öffnen.
+                    alert('✓ Fertig! Dienstplan wurde kopiert.');
+                    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
                 } else {
                     alert(
                         'Das Bild konnte nicht automatisch in die Zwischenablage kopiert werden.\n\n' +
                         'Eine PNG-Datei wurde heruntergeladen. Du kannst sie in WhatsApp auswählen.\n\n' +
                         'Für automatisches STRG + V bitte die Seite über HTTPS oder localhost öffnen und den Zwischenablagezugriff erlauben.'
                     );
+                    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
                 }
             } catch (error) {
                 console.error('Fehler beim Erstellen des Dienstplans:', error);
