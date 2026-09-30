@@ -3,22 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elite Tagesplan Düren">
     <title>Elite Tagesplan Düren</title>
-    <!-- Tailwind CSS -->
+
+    <!-- Externe Bibliotheken -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- html2canvas Bibliothek für Screenshots -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+
     <style>
         @media print {
             .no-print { display: none !important; }
             body { background: white !important; }
         }
+
         .custom-scroll::-webkit-scrollbar { width: 6px; }
-        .custom-scroll::-webkit-scrollbar-track { background: #18181b; border-radius: 8px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 8px; }
-        
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #18181b;
+            border-radius: 8px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #3f3f46;
+            border-radius: 8px;
+        }
+
         body {
             background: linear-gradient(135deg, #09090b 0%, #18181b 50%, #27272a 100%);
             background-attachment: fixed;
@@ -26,15 +39,16 @@
         }
     </style>
 </head>
+
 <body class="text-slate-800 font-sans p-3 md:p-6">
 
     <div class="max-w-6xl mx-auto space-y-4">
-        
+
         <!-- Header -->
         <header class="bg-white/95 backdrop-blur-md rounded-2xl shadow-md p-4 flex flex-col md:flex-row justify-between items-center gap-4 no-print border border-slate-300/60">
             <div class="flex items-center gap-3">
                 <div class="bg-rose-600 text-white p-2.5 rounded-xl text-lg shadow-md">
-                    <i class="fa-solid fa-calendar-days"></i>
+                    <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
                 </div>
                 <div>
                     <h1 class="text-lg md:text-xl font-bold text-slate-900">Elite Tagesplan Düren</h1>
@@ -42,27 +56,39 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-2">
-                <button onclick="openQuickModal()" class="bg-rose-600 hover:bg-rose-700 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-list-check"></i> Schnell-Eingabe
+                <button type="button" onclick="openQuickModal()" class="bg-rose-600 hover:bg-rose-700 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+                    Schnell-Eingabe
                 </button>
-                <button onclick="sendGroupWhatsAppDirect()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-base"></i> Dienstplan senden
+
+                <button type="button" onclick="sendGroupWhatsAppDirect()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-base" aria-hidden="true"></i>
+                    Dienstplan senden
                 </button>
-                <button onclick="window.print()" class="bg-slate-800 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-print"></i> Drucken
+
+                <button type="button" onclick="window.print()" class="bg-slate-800 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-print" aria-hidden="true"></i>
+                    Drucken
                 </button>
-                <button onclick="openModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-plus"></i> Neuer Eintrag
+
+                <button type="button" onclick="openModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    Neuer Eintrag
                 </button>
             </div>
         </header>
 
         <!-- Wochentage -->
-        <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-md p-2.5 no-print flex overflow-x-auto gap-2 border border-slate-300/60" id="day-tabs"></div>
+        <div
+            id="day-tabs"
+            class="bg-white/95 backdrop-blur-md rounded-2xl shadow-md p-2.5 no-print flex overflow-x-auto gap-2 border border-slate-300/60"
+            role="tablist"
+            aria-label="Wochentage">
+        </div>
 
-        <!-- Haupt-Tabelle -->
+        <!-- Hauptbereich -->
         <main id="capture-area" class="bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-300">
-            
+
             <div class="bg-gradient-to-r from-rose-700 to-rose-600 text-white py-3 px-5 text-center font-bold text-lg md:text-xl tracking-wide flex justify-between items-center">
                 <span id="current-date-title">Laden...</span>
                 <span id="day-badge" class="text-[10px] bg-rose-900/50 px-2.5 py-0.5 rounded-full uppercase tracking-wider font-semibold">-</span>
@@ -72,62 +98,78 @@
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-slate-200 text-slate-900 uppercase text-[11px] tracking-wider border-b border-slate-300 font-bold">
-                            <th class="py-2.5 px-3 text-center border-r border-slate-300 w-12">Nr</th>
-                            <th class="py-2.5 px-3 text-center border-r border-slate-300 w-24">Abteilung</th>
-                            <th class="py-2.5 px-3 border-r border-slate-300">Fahrer / Beifahrer</th>
-                            <th class="py-2.5 px-3 border-r border-slate-300 w-36">Zeit</th>
-                            <th class="py-2.5 px-3 border-r border-slate-300">Information</th>
-                            <th class="py-2.5 px-3 text-center w-20 no-print">Aktion</th>
+                            <th scope="col" class="py-2.5 px-3 text-center border-r border-slate-300 w-12">Nr</th>
+                            <th scope="col" class="py-2.5 px-3 text-center border-r border-slate-300 w-24">Abteilung</th>
+                            <th scope="col" class="py-2.5 px-3 border-r border-slate-300">Fahrer / Beifahrer</th>
+                            <th scope="col" class="py-2.5 px-3 border-r border-slate-300 w-36">Zeit</th>
+                            <th scope="col" class="py-2.5 px-3 border-r border-slate-300">Information</th>
+                            <th scope="col" class="py-2.5 px-3 text-center w-20 no-print">Aktion</th>
                         </tr>
                     </thead>
-                    <tbody id="schedule-table-body" class="text-xs">
-                        <!-- Dynamisch -->
-                    </tbody>
+
+                    <tbody id="schedule-table-body" class="text-xs"></tbody>
                 </table>
             </div>
 
             <!-- Rufumleitung -->
             <div class="bg-rose-600 text-white p-3 font-bold text-sm md:text-base flex items-center justify-between">
                 <div class="flex items-center gap-3 w-full">
-                    <span class="whitespace-nowrap"><i class="fa-solid fa-phone-volume mr-2"></i> Rufumleitung:</span>
-                    <input type="text" id="rufumleitung-input" onchange="updateRufumleitung(this.value)" class="bg-white text-slate-900 border border-rose-400 rounded-lg px-3 py-1 font-semibold text-xs md:text-sm w-full focus:outline-none" placeholder="Name eingeben...">
+                    <span class="whitespace-nowrap">
+                        <i class="fa-solid fa-phone-volume mr-2" aria-hidden="true"></i>
+                        Rufumleitung:
+                    </span>
+                    <input
+                        type="text"
+                        id="rufumleitung-input"
+                        onchange="updateRufumleitung(this.value)"
+                        class="bg-white text-slate-900 border border-rose-400 rounded-lg px-3 py-1 font-semibold text-xs md:text-sm w-full focus:outline-none"
+                        placeholder="Name eingeben..."
+                        aria-label="Rufumleitung">
                 </div>
             </div>
-
         </main>
     </div>
 
-    <!-- Modals (Eintrag & Schnell-Eingabe) -->
-    <div id="entry-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print">
+    <!-- Eintrag-Modal -->
+    <div id="entry-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-200">
             <div class="bg-slate-900 text-white px-5 py-3.5 flex justify-between items-center">
                 <h3 id="modal-title" class="font-bold text-base">Eintrag</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+                <button type="button" onclick="closeModal()" class="text-slate-400 hover:text-white" aria-label="Fenster schließen">
+                    <i class="fa-solid fa-xmark text-base" aria-hidden="true"></i>
+                </button>
             </div>
+
             <form id="entry-form" onsubmit="saveEntry(event)" class="p-5 space-y-3.5">
                 <input type="hidden" id="entry-id">
+
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Nummer (NR)</label>
+                        <label for="input-nr" class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Nummer (NR)</label>
                         <input type="text" id="input-nr" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold">
                     </div>
+
                     <div>
-                        <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Abteilung</label>
+                        <label for="input-dept" class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Abteilung</label>
                         <input type="text" id="input-dept" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs">
                     </div>
                 </div>
+
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Fahrer / Beifahrer</label>
+                    <label for="input-driver" class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Fahrer / Beifahrer</label>
                     <input type="text" id="input-driver" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs">
                 </div>
+
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Zeit</label>
+                    <label for="input-time" class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Zeit</label>
                     <input type="text" id="input-time" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs">
                 </div>
+
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Information</label>
+                    <label for="input-info" class="block text-[11px] font-semibold uppercase text-slate-500 mb-1">Information</label>
                     <input type="text" id="input-info" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs">
                 </div>
+
                 <div class="flex justify-end gap-2.5 pt-3 border-t border-slate-100">
                     <button type="button" onclick="closeModal()" class="px-3.5 py-2 text-slate-600 text-xs">Abbrechen</button>
                     <button type="submit" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-medium">Speichern</button>
@@ -136,24 +178,36 @@
         </div>
     </div>
 
-    <div id="quick-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print">
+    <!-- Schnell-Eingabe-Modal -->
+    <div id="quick-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print" role="dialog" aria-modal="true" aria-labelledby="quick-modal-title">
         <div class="bg-slate-900 rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden border border-slate-800 flex flex-col max-h-[90vh]">
+
             <div class="bg-gradient-to-r from-rose-800 to-rose-700 text-white px-5 py-3.5 flex justify-between items-center shrink-0">
-                <h3 class="font-bold text-base"><i class="fa-solid fa-list-check mr-2"></i> Schnell-Eingabe</h3>
-                <button onclick="closeQuickModal()" class="text-rose-200 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+                <h3 id="quick-modal-title" class="font-bold text-base">
+                    <i class="fa-solid fa-list-check mr-2" aria-hidden="true"></i>
+                    Schnell-Eingabe
+                </h3>
+                <button type="button" onclick="closeQuickModal()" class="text-rose-200 hover:text-white" aria-label="Fenster schließen">
+                    <i class="fa-solid fa-xmark text-lg" aria-hidden="true"></i>
+                </button>
             </div>
+
             <div class="bg-slate-950 px-5 py-2.5 border-b border-slate-800 flex items-center justify-between flex-wrap gap-2 shrink-0">
                 <span class="text-[11px] font-semibold text-slate-400 uppercase">Tag auswählen:</span>
                 <div id="quick-modal-day-selector" class="flex flex-wrap gap-1.5"></div>
             </div>
+
             <div class="p-5 space-y-2 overflow-y-auto custom-scroll flex-grow bg-slate-950" id="quick-rows-container"></div>
+
             <div class="p-3.5 bg-slate-950 border-t border-slate-800 shrink-0">
                 <button type="button" onclick="addQuickRow()" class="w-full py-2 border-2 border-dashed border-slate-800 hover:border-rose-600 text-slate-400 hover:text-rose-400 rounded-xl font-medium text-xs transition">
                     + Weitere Zeile hinzufügen
                 </button>
             </div>
+
             <div class="bg-slate-900 px-5 py-3.5 border-t border-slate-800 flex justify-between items-center shrink-0">
                 <span class="text-xs text-slate-400" id="quick-counter">0 Einträge</span>
+
                 <div class="flex gap-2.5">
                     <button type="button" onclick="closeQuickModal()" class="px-4 py-1.5 text-slate-300 text-xs">Abbrechen</button>
                     <button type="button" onclick="saveQuickInput()" class="px-5 py-1.5 bg-rose-600 text-white rounded-xl text-xs font-medium">Speichern</button>
@@ -162,40 +216,30 @@
         </div>
     </div>
 
-    <!-- JavaScript -->
     <script>
-        function getWeeklyDays() {
-            const now = new Date();
-            const currentDayOfWeek = now.getDay(); 
-            const distanceToMonday = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
-            const monday = new Date(now);
-            monday.setDate(now.getDate() + distanceToMonday);
+        'use strict';
 
-            const dayNames = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
-            const dayIds = ['montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag', 'samstag', 'sonntag'];
+        const STORAGE_PREFIX = 'elite_tagesplan_dueren_v7_';
 
-            let weekDays = [];
-            for (let i = 0; i < 7; i++) {
-                const d = new Date(monday);
-                d.setDate(monday.getDate() + i);
-                weekDays.push({
-                    id: dayIds[i],
-                    name: dayNames[i],
-                    date: `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getFullYear()).slice(-2)}`
-                });
-            }
-            return weekDays;
-        }
+        const dayNames = [
+            'Montag',
+            'Dienstag',
+            'Mittwoch',
+            'Donnerstag',
+            'Freitag',
+            'Samstag',
+            'Sonntag'
+        ];
 
-        const days = getWeeklyDays();
-        let currentDayId = getTodayId();
-        let quickModalDayId = currentDayId;
-
-        function getTodayId() {
-            const jsDay = new Date().getDay();
-            const mapping = { 1: 'montag', 2: 'dienstag', 3: 'mittwoch', 4: 'donnerstag', 5: 'freitag', 6: 'samstag', 0: 'sonntag' };
-            return mapping[jsDay] || 'montag';
-        }
+        const dayIds = [
+            'montag',
+            'dienstag',
+            'mittwoch',
+            'donnerstag',
+            'freitag',
+            'samstag',
+            'sonntag'
+        ];
 
         const templateEntries = [
             { id: 1, nr: '3', dept: 'INNO', driver: 'Ramadhan', time: ':', info: '' },
@@ -210,31 +254,200 @@
             { id: 10, nr: '51', dept: 'INNO', driver: 'Bounab', time: ':', info: '' }
         ];
 
-        const defaultData = {};
-        days.forEach(d => { defaultData[d.id] = { rufumleitung: 'Sarkar', entries: JSON.parse(JSON.stringify(templateEntries)) }; });
+        let days = [];
+        let currentDayId = '';
+        let quickModalDayId = '';
+        let quickDrafts = {};
 
-        const storageKey = `elite_tagesplan_dueren_v6_${days[0].date}`;
-        let appData = JSON.parse(localStorage.getItem(storageKey)) || defaultData;
+        function getWeeklyDays() {
+            const now = new Date();
+            const currentDayOfWeek = now.getDay();
+            const distanceToMonday = currentDayOfWeek === 0
+                ? -6
+                : 1 - currentDayOfWeek;
 
-        function saveData() { localStorage.setItem(storageKey, JSON.stringify(appData)); }
+            const monday = new Date(now);
+            monday.setHours(0, 0, 0, 0);
+            monday.setDate(now.getDate() + distanceToMonday);
 
-        window.onload = function() { renderTabs(); loadDay(currentDayId); };
+            return Array.from({ length: 7 }, (_, i) => {
+                const date = new Date(monday);
+                date.setDate(monday.getDate() + i);
 
-        function renderTabs() {
-            document.getElementById('day-tabs').innerHTML = days.map(d => `
-                <button onclick="switchDay('${d.id}')" class="px-4 py-2 rounded-xl text-xs font-medium transition whitespace-nowrap flex items-center gap-1.5 ${currentDayId === d.id ? 'bg-rose-600 text-white shadow-md' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'}">
-                    <span>${d.name}</span> <span class="text-[10px] opacity-80">(${d.date})</span>
-                </button>
-            `).join('');
+                return {
+                    id: dayIds[i],
+                    name: dayNames[i],
+                    date: `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getFullYear()).slice(-2)}`
+                };
+            });
         }
 
-        function switchDay(id) { currentDayId = id; renderTabs(); loadDay(id); }
+        function getTodayId() {
+            const mapping = {
+                1: 'montag',
+                2: 'dienstag',
+                3: 'mittwoch',
+                4: 'donnerstag',
+                5: 'freitag',
+                6: 'samstag',
+                0: 'sonntag'
+            };
+
+            return mapping[new Date().getDay()] || 'montag';
+        }
+
+        function cloneTemplateEntries() {
+            return templateEntries.map(entry => ({ ...entry }));
+        }
+
+        function createDefaultData() {
+            const data = {};
+
+            days.forEach(day => {
+                data[day.id] = {
+                    rufumleitung: 'Sarkar',
+                    entries: cloneTemplateEntries()
+                };
+            });
+
+            return data;
+        }
+
+        function loadData() {
+            const raw = localStorage.getItem(getStorageKey());
+
+            if (!raw) {
+                return createDefaultData();
+            }
+
+            try {
+                const parsed = JSON.parse(raw);
+
+                if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+                    throw new Error('Ungültiges Datenformat');
+                }
+
+                return normalizeData(parsed);
+            } catch (error) {
+                console.error('Gespeicherte Daten konnten nicht gelesen werden:', error);
+                alert('Die gespeicherten Daten waren beschädigt. Es wurden die Standarddaten geladen.');
+                return createDefaultData();
+            }
+        }
+
+        function normalizeData(data) {
+            const normalized = {};
+
+            days.forEach(day => {
+                const source = data[day.id];
+
+                normalized[day.id] = {
+                    rufumleitung: typeof source?.rufumleitung === 'string'
+                        ? source.rufumleitung
+                        : '',
+                    entries: Array.isArray(source?.entries)
+                        ? source.entries
+                            .filter(entry => entry && typeof entry === 'object')
+                            .map(normalizeEntry)
+                        : []
+                };
+            });
+
+            return normalized;
+        }
+
+        function normalizeEntry(entry) {
+            return {
+                id: entry.id ?? createId(),
+                nr: String(entry.nr ?? ''),
+                dept: String(entry.dept ?? ''),
+                driver: String(entry.driver ?? ''),
+                time: String(entry.time ?? ':'),
+                info: String(entry.info ?? '')
+            };
+        }
+
+        function createId() {
+            return Date.now() + Math.random();
+        }
+
+        function getStorageKey() {
+            return `${STORAGE_PREFIX}${days[0]?.date || 'unknown'}`;
+        }
+
+        let appData;
+
+        function saveData() {
+            try {
+                localStorage.setItem(getStorageKey(), JSON.stringify(appData));
+                return true;
+            } catch (error) {
+                console.error('Speichern fehlgeschlagen:', error);
+                alert('Die Daten konnten nicht gespeichert werden. Bitte prüfe den Speicherplatz des Browsers.');
+                return false;
+            }
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function escapeAttribute(value) {
+            return escapeHtml(value);
+        }
+
+        function renderTabs() {
+            const container = document.getElementById('day-tabs');
+
+            container.innerHTML = days.map(day => {
+                const active = currentDayId === day.id;
+
+                return `
+                    <button
+                        type="button"
+                        onclick="switchDay('${escapeAttribute(day.id)}')"
+                        role="tab"
+                        aria-selected="${active}"
+                        class="px-4 py-2 rounded-xl text-xs font-medium transition whitespace-nowrap flex items-center gap-1.5 ${
+                            active
+                                ? 'bg-rose-600 text-white shadow-md'
+                                : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
+                        }">
+                        <span>${escapeHtml(day.name)}</span>
+                        <span class="text-[10px] opacity-80">(${escapeHtml(day.date)})</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function switchDay(id) {
+            if (!days.some(day => day.id === id)) return;
+
+            currentDayId = id;
+            renderTabs();
+            loadDay(id);
+        }
 
         function loadDay(id) {
-            const dayObj = days.find(d => d.id === id);
-            document.getElementById('current-date-title').innerText = `${dayObj.name} ${dayObj.date}`;
-            document.getElementById('day-badge').innerText = dayObj.name;
-            document.getElementById('rufumleitung-input').value = appData[id]?.rufumleitung || '';
+            const day = days.find(item => item.id === id);
+            if (!day) return;
+
+            if (!appData[id]) {
+                appData[id] = { rufumleitung: '', entries: [] };
+            }
+
+            document.getElementById('current-date-title').textContent =
+                `${day.name} ${day.date}`;
+
+            document.getElementById('day-badge').textContent = day.name;
+            document.getElementById('rufumleitung-input').value =
+                appData[id].rufumleitung || '';
+
             renderTable();
         }
 
@@ -243,46 +456,99 @@
             const entries = appData[currentDayId]?.entries || [];
 
             if (entries.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-400">Keine Einträge vorhanden.</td></tr>`;
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center py-6 text-slate-400">
+                            Keine Einträge vorhanden.
+                        </td>
+                    </tr>
+                `;
                 return;
             }
 
-            tbody.innerHTML = entries.map((e, index) => {
+            tbody.innerHTML = entries.map((entry, index) => {
                 const bgColor = index % 2 === 0 ? '#ffffff' : '#f8fafc';
-                const deptBg = (e.dept || '').trim().toUpperCase() === 'BTW' ? 'bg-rose-900 text-rose-100 font-bold' : 'bg-amber-500 text-slate-950 font-extrabold';
-                
+                const dept = String(entry.dept || '').trim().toUpperCase();
+
+                const deptBg = dept === 'BTW'
+                    ? 'bg-rose-900 text-rose-100 font-bold'
+                    : 'bg-amber-500 text-slate-950 font-extrabold';
+
                 return `
                     <tr class="border-b border-slate-300" style="background-color: ${bgColor};">
                         <td class="py-2 px-3 text-center border-r border-slate-300" style="background-color: ${bgColor};">
-                            <span class="inline-flex items-center justify-center bg-slate-200 text-rose-600 font-black px-2 py-0.5 rounded text-[11px] shadow-sm">${e.nr}</span>
+                            <span class="inline-flex items-center justify-center bg-slate-200 text-rose-600 font-black px-2 py-0.5 rounded text-[11px] shadow-sm">
+                                ${escapeHtml(entry.nr)}
+                            </span>
                         </td>
+
                         <td class="py-2 px-3 text-center border-r border-slate-300" style="background-color: ${bgColor};">
-                            <span class="px-2 py-0.5 ${deptBg} rounded text-[10px] shadow-sm">${e.dept}</span>
+                            <span class="px-2 py-0.5 ${deptBg} rounded text-[10px] shadow-sm">
+                                ${escapeHtml(entry.dept)}
+                            </span>
                         </td>
-                        <td class="py-2 px-3 font-semibold text-slate-900 border-r border-slate-300" style="background-color: ${bgColor};">${e.driver}</td>
-                        <td class="py-2 px-3 border-r border-slate-300 text-slate-800 font-bold italic" style="background-color: ${bgColor};">${e.time}</td>
-                        <td class="py-2 px-3 border-r border-slate-300 text-slate-700 font-bold italic" style="background-color: ${bgColor};">${e.info || ''}</td>
+
+                        <td class="py-2 px-3 font-semibold text-slate-900 border-r border-slate-300" style="background-color: ${bgColor};">
+                            ${escapeHtml(entry.driver)}
+                        </td>
+
+                        <td class="py-2 px-3 border-r border-slate-300 text-slate-800 font-bold italic" style="background-color: ${bgColor};">
+                            ${escapeHtml(entry.time)}
+                        </td>
+
+                        <td class="py-2 px-3 border-r border-slate-300 text-slate-700 font-bold italic" style="background-color: ${bgColor};">
+                            ${escapeHtml(entry.info)}
+                        </td>
+
                         <td class="py-2 px-3 text-center no-print" style="background-color: ${bgColor};">
-                            <button onclick="openModal(${e.id})" class="text-rose-600 p-1 rounded hover:bg-rose-100"><i class="fa-solid fa-pen text-xs"></i></button>
-                            <button onclick="deleteEntry(${e.id})" class="text-rose-600 p-1 rounded hover:bg-rose-100 ml-0.5"><i class="fa-solid fa-trash text-xs"></i></button>
+                            <button
+                                type="button"
+                                onclick="openModal(${JSON.stringify(entry.id)})"
+                                class="text-rose-600 p-1 rounded hover:bg-rose-100"
+                                aria-label="Eintrag bearbeiten">
+                                <i class="fa-solid fa-pen text-xs" aria-hidden="true"></i>
+                            </button>
+
+                            <button
+                                type="button"
+                                onclick="deleteEntry(${JSON.stringify(entry.id)})"
+                                class="text-rose-600 p-1 rounded hover:bg-rose-100 ml-0.5"
+                                aria-label="Eintrag löschen">
+                                <i class="fa-solid fa-trash text-xs" aria-hidden="true"></i>
+                            </button>
                         </td>
                     </tr>
                 `;
             }).join('');
         }
 
-        function updateRufumleitung(val) {
-            if (!appData[currentDayId]) appData[currentDayId] = { entries: [] };
-            appData[currentDayId].rufumleitung = val;
+        function updateRufumleitung(value) {
+            if (!appData[currentDayId]) {
+                appData[currentDayId] = { entries: [], rufumleitung: '' };
+            }
+
+            appData[currentDayId].rufumleitung = String(value ?? '');
             saveData();
         }
 
         function openModal(id = null) {
-            document.getElementById('entry-modal').classList.remove('hidden');
-            document.getElementById('entry-modal').classList.add('flex');
-            if (id) {
-                document.getElementById('modal-title').innerText = 'Eintrag bearbeiten';
-                const entry = appData[currentDayId].entries.find(e => e.id === id);
+            const modal = document.getElementById('entry-modal');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            if (id !== null) {
+                const entry = appData[currentDayId]?.entries?.find(item =>
+                    String(item.id) === String(id)
+                );
+
+                if (!entry) {
+                    closeModal();
+                    alert('Der Eintrag wurde nicht gefunden.');
+                    return;
+                }
+
+                document.getElementById('modal-title').textContent = 'Eintrag bearbeiten';
                 document.getElementById('entry-id').value = entry.id;
                 document.getElementById('input-nr').value = entry.nr;
                 document.getElementById('input-dept').value = entry.dept;
@@ -290,139 +556,337 @@
                 document.getElementById('input-time').value = entry.time;
                 document.getElementById('input-info').value = entry.info;
             } else {
-                document.getElementById('modal-title').innerText = 'Neuen Eintrag erstellen';
+                document.getElementById('modal-title').textContent = 'Neuen Eintrag erstellen';
                 document.getElementById('entry-form').reset();
                 document.getElementById('entry-id').value = '';
                 document.getElementById('input-time').value = ':';
             }
+
+            document.getElementById('input-nr').focus();
         }
 
         function closeModal() {
-            document.getElementById('entry-modal').classList.remove('flex');
-            document.getElementById('entry-modal').classList.add('hidden');
+            const modal = document.getElementById('entry-modal');
+
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
         }
 
-        function saveEntry(e) {
-            e.preventDefault();
-            const id = document.getElementById('entry-id').value;
-            const data = {
-                id: id ? parseInt(id) : Date.now(),
-                nr: document.getElementById('input-nr').value,
-                dept: document.getElementById('input-dept').value.toUpperCase(),
-                driver: document.getElementById('input-driver').value,
-                time: document.getElementById('input-time').value,
-                info: document.getElementById('input-info').value
+        function saveEntry(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('entry-id').value.trim();
+
+            const entry = {
+                id: id ? Number(id) : createId(),
+                nr: document.getElementById('input-nr').value.trim(),
+                dept: document.getElementById('input-dept').value.trim().toUpperCase(),
+                driver: document.getElementById('input-driver').value.trim(),
+                time: document.getElementById('input-time').value.trim(),
+                info: document.getElementById('input-info').value.trim()
             };
-            if (!appData[currentDayId]) appData[currentDayId] = { entries: [], rufumleitung: '' };
-            if (id) {
-                const idx = appData[currentDayId].entries.findIndex(en => en.id === parseInt(id));
-                if (idx !== -1) appData[currentDayId].entries[idx] = data;
-            } else {
-                appData[currentDayId].entries.push(data);
+
+            if (!appData[currentDayId]) {
+                appData[currentDayId] = { entries: [], rufumleitung: '' };
             }
-            saveData(); closeModal(); renderTable();
+
+            if (id) {
+                const index = appData[currentDayId].entries.findIndex(item =>
+                    String(item.id) === id
+                );
+
+                if (index === -1) {
+                    alert('Der Eintrag wurde nicht gefunden.');
+                    return;
+                }
+
+                appData[currentDayId].entries[index] = entry;
+            } else {
+                appData[currentDayId].entries.push(entry);
+            }
+
+            if (saveData()) {
+                closeModal();
+                renderTable();
+            }
         }
 
         function deleteEntry(id) {
-            if (confirm('Löschen?')) {
-                appData[currentDayId].entries = appData[currentDayId].entries.filter(e => e.id !== id);
-                saveData(); renderTable();
-            }
-        }
+            const entries = appData[currentDayId]?.entries || [];
+            const entry = entries.find(item => String(item.id) === String(id));
 
-        function openQuickModal() {
-            document.getElementById('quick-modal').classList.remove('hidden');
-            document.getElementById('quick-modal').classList.add('flex');
-            quickModalDayId = currentDayId;
-            renderQuickModalDays(); renderQuickRows();
-        }
-
-        function closeQuickModal() {
-            document.getElementById('quick-modal').classList.remove('flex');
-            document.getElementById('quick-modal').classList.add('hidden');
-        }
-
-        function renderQuickModalDays() {
-            document.getElementById('quick-modal-day-selector').innerHTML = days.map(d => `
-                <button type="button" onclick="quickModalDayId='${d.id}';renderQuickModalDays();renderQuickRows();" class="px-2.5 py-1 rounded-lg text-xs font-semibold ${quickModalDayId === d.id ? 'bg-rose-600 text-white' : 'bg-slate-900 text-slate-300 border border-slate-800'}">
-                    ${d.name}
-                </button>
-            `).join('');
-        }
-
-        function renderQuickRows() {
-            const entries = appData[quickModalDayId]?.entries || [];
-            document.getElementById('quick-rows-container').innerHTML = entries.map(e => `
-                <div class="quick-row-item bg-slate-900 p-2 rounded-xl border border-slate-800 grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
-                    <input type="text" class="q-nr col-span-2 bg-slate-100 text-rose-600 font-black px-2.5 py-1 text-xs rounded text-center" value="${e.nr || ''}">
-                    <input type="text" class="q-dept col-span-2 bg-slate-950 text-white font-bold px-2.5 py-1 text-xs rounded text-center uppercase" value="${e.dept || ''}">
-                    <input type="text" class="q-driver col-span-3 bg-slate-950 text-white px-2.5 py-1 text-xs rounded" value="${e.driver || ''}">
-                    <input type="text" class="q-time col-span-2 bg-slate-950 text-white font-bold px-2.5 py-1 text-xs rounded text-center" value="${e.time || ':'}">
-                    <input type="text" class="q-info col-span-2 bg-slate-950 text-white px-2.5 py-1 text-xs rounded" value="${e.info || ''}">
-                    <button type="button" onclick="this.closest('.quick-row-item').remove(); document.getElementById('quick-counter').innerText = document.querySelectorAll('.quick-row-item').length + ' Einträge';" class="col-span-1 text-slate-400 hover:text-rose-500 text-center"><i class="fa-solid fa-trash-can text-xs"></i></button>
-                </div>
-            `).join('');
-            document.getElementById('quick-counter').innerText = `${entries.length} Einträge`;
-        }
-
-        function addQuickRow() {
-            if (!appData[quickModalDayId]) appData[quickModalDayId] = { entries: [], rufumleitung: '' };
-            appData[quickModalDayId].entries.push({ id: Date.now() + Math.random(), nr: '', dept: 'INNO', driver: '', time: ':', info: '' });
-            renderQuickRows();
-        }
-
-        function saveQuickInput() {
-            const rows = document.querySelectorAll('.quick-row-item');
-            let newEntries = [];
-            rows.forEach((r, i) => {
-                newEntries.push({
-                    id: Date.now() + i,
-                    nr: r.querySelector('.q-nr').value.trim(),
-                    dept: r.querySelector('.q-dept').value.trim().toUpperCase(),
-                    driver: r.querySelector('.q-driver').value.trim(),
-                    time: r.querySelector('.q-time').value.trim() || ':',
-                    info: r.querySelector('.q-info').value.trim()
-                });
-            });
-            if (!appData[quickModalDayId]) appData[quickModalDayId] = { rufumleitung: '', entries: [] };
-            appData[quickModalDayId].entries = newEntries;
-            saveData(); closeQuickModal(); renderTable();
-        }
-
-        function sendGroupWhatsAppDirect() {
-            const d = days.find(x => x.id === currentDayId);
-            const element = document.getElementById('capture-area');
-
-            if (!element) {
-                alert("Fehler aufgetreten.");
+            if (!entry) {
+                alert('Der Eintrag wurde nicht gefunden.');
                 return;
             }
 
-            if (typeof html2canvas !== 'undefined') {
-                html2canvas(element, { 
-                    scale: 2, 
-                    backgroundColor: '#ffffff',
-                    useCORS: true 
-                }).then(canvas => {
-                    // 1. Bild direkt herunterladen
-                    const imageURL = canvas.toDataURL('image/png');
-                    const downloadLink = document.createElement('a');
-                    downloadLink.href = imageURL;
-                    downloadLink.download = `Tagesplan_${d.name}_${d.date}.png`;
-                    downloadLink.click();
+            if (!confirm(`Eintrag "${entry.driver || entry.nr}" wirklich löschen?`)) {
+                return;
+            }
 
-                    // 2. WhatsApp mit Text öffnen
-                    const text = `*${d.name}, ${d.date}*`;
-                    const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
-                    window.open(whatsappUrl, '_blank');
-                }).catch(err => {
-                    console.error("Screenshot-Fehler:", err);
-                    alert("Fehler beim Erstellen des Bildes.");
-                });
-            } else {
-                alert("Bibliothek lädt noch, bitte kurz versuchen.");
+            appData[currentDayId].entries =
+                entries.filter(item => String(item.id) !== String(id));
+
+            if (saveData()) {
+                renderTable();
             }
         }
+
+        function cloneEntries(entries) {
+            return (entries || []).map(entry => ({ ...entry }));
+        }
+
+        function openQuickModal() {
+            quickModalDayId = currentDayId;
+
+            // Wichtig: Das Modal arbeitet ausschließlich mit Entwürfen.
+            // appData wird erst bei "Speichern" verändert.
+            quickDrafts = {};
+
+            days.forEach(day => {
+                quickDrafts[day.id] = cloneEntries(appData[day.id]?.entries || []);
+            });
+
+            document.getElementById('quick-modal').classList.remove('hidden');
+            document.getElementById('quick-modal').classList.add('flex');
+
+            renderQuickModalDays();
+            renderQuickRows();
+        }
+
+        function closeQuickModal() {
+            // Entwürfe bewusst verwerfen.
+            quickDrafts = {};
+
+            const modal = document.getElementById('quick-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function renderQuickModalDays() {
+            const container = document.getElementById('quick-modal-day-selector');
+
+            container.innerHTML = days.map(day => {
+                const active = quickModalDayId === day.id;
+
+                return `
+                    <button
+                        type="button"
+                        onclick="selectQuickModalDay('${escapeAttribute(day.id)}')"
+                        class="px-2.5 py-1 rounded-lg text-xs font-semibold ${
+                            active
+                                ? 'bg-rose-600 text-white'
+                                : 'bg-slate-900 text-slate-300 border border-slate-800'
+                        }">
+                        ${escapeHtml(day.name)}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function selectQuickModalDay(id) {
+            if (!days.some(day => day.id === id)) return;
+
+            collectQuickRows();
+            quickModalDayId = id;
+
+            renderQuickModalDays();
+            renderQuickRows();
+        }
+
+        function collectQuickRows() {
+            const container = document.getElementById('quick-rows-container');
+
+            if (!container || !quickModalDayId) return;
+
+            const rows = container.querySelectorAll('.quick-row-item');
+
+            quickDrafts[quickModalDayId] = Array.from(rows).map(row => ({
+                id: row.dataset.id || createId(),
+                nr: row.querySelector('.q-nr')?.value.trim() || '',
+                dept: row.querySelector('.q-dept')?.value.trim().toUpperCase() || '',
+                driver: row.querySelector('.q-driver')?.value.trim() || '',
+                time: row.querySelector('.q-time')?.value.trim() || ':',
+                info: row.querySelector('.q-info')?.value.trim() || ''
+            }));
+        }
+
+        function renderQuickRows() {
+            const container = document.getElementById('quick-rows-container');
+            const entries = quickDrafts[quickModalDayId] || [];
+
+            container.innerHTML = entries.map(entry => `
+                <div
+                    class="quick-row-item bg-slate-900 p-2 rounded-xl border border-slate-800 grid grid-cols-1 md:grid-cols-12 gap-2 items-center"
+                    data-id="${escapeAttribute(entry.id)}">
+
+                    <input
+                        type="text"
+                        class="q-nr col-span-2 bg-slate-100 text-rose-600 font-black px-2.5 py-1 text-xs rounded text-center"
+                        value="${escapeAttribute(entry.nr)}"
+                        aria-label="Nummer">
+
+                    <input
+                        type="text"
+                        class="q-dept col-span-2 bg-slate-950 text-white font-bold px-2.5 py-1 text-xs rounded text-center uppercase"
+                        value="${escapeAttribute(entry.dept)}"
+                        aria-label="Abteilung">
+
+                    <input
+                        type="text"
+                        class="q-driver col-span-3 bg-slate-950 text-white px-2.5 py-1 text-xs rounded"
+                        value="${escapeAttribute(entry.driver)}"
+                        aria-label="Fahrer / Beifahrer">
+
+                    <input
+                        type="text"
+                        class="q-time col-span-2 bg-slate-950 text-white font-bold px-2.5 py-1 text-xs rounded text-center"
+                        value="${escapeAttribute(entry.time || ':')}"
+                        aria-label="Zeit">
+
+                    <input
+                        type="text"
+                        class="q-info col-span-2 bg-slate-950 text-white px-2.5 py-1 text-xs rounded"
+                        value="${escapeAttribute(entry.info)}"
+                        aria-label="Information">
+
+                    <button
+                        type="button"
+                        onclick="removeQuickRow(this)"
+                        class="col-span-1 text-slate-400 hover:text-rose-500 text-center"
+                        aria-label="Zeile löschen">
+                        <i class="fa-solid fa-trash-can text-xs" aria-hidden="true"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            updateQuickCounter();
+        }
+
+        function updateQuickCounter() {
+            const count = document.querySelectorAll('.quick-row-item').length;
+            document.getElementById('quick-counter').textContent =
+                `${count} ${count === 1 ? 'Eintrag' : 'Einträge'}`;
+        }
+
+        function removeQuickRow(button) {
+            const row = button.closest('.quick-row-item');
+            if (!row) return;
+
+            row.remove();
+            updateQuickCounter();
+        }
+
+        function addQuickRow() {
+            collectQuickRows();
+
+            if (!quickDrafts[quickModalDayId]) {
+                quickDrafts[quickModalDayId] = [];
+            }
+
+            quickDrafts[quickModalDayId].push({
+                id: createId(),
+                nr: '',
+                dept: 'INNO',
+                driver: '',
+                time: ':',
+                info: ''
+            });
+
+            renderQuickRows();
+
+            const firstEmpty = document.querySelector('.quick-row-item:last-child .q-nr');
+            firstEmpty?.focus();
+        }
+
+        function saveQuickInput() {
+            collectQuickRows();
+
+            days.forEach(day => {
+                if (!quickDrafts[day.id]) return;
+
+                appData[day.id] = appData[day.id] || {
+                    rufumleitung: '',
+                    entries: []
+                };
+
+                appData[day.id].entries =
+                    quickDrafts[day.id].map(normalizeEntry);
+            });
+
+            if (saveData()) {
+                closeQuickModal();
+                renderTable();
+            }
+        }
+
+        async function sendGroupWhatsAppDirect() {
+            const day = days.find(item => item.id === currentDayId);
+            const element = document.getElementById('capture-area');
+
+            if (!day || !element) {
+                alert('Der Tagesplan konnte nicht gefunden werden.');
+                return;
+            }
+
+            if (typeof html2canvas === 'undefined') {
+                alert('Die Screenshot-Bibliothek ist noch nicht geladen. Bitte kurz warten und erneut versuchen.');
+                return;
+            }
+
+            try {
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    backgroundColor: '#ffffff',
+                    useCORS: true
+                });
+
+                const imageURL = canvas.toDataURL('image/png');
+
+                const downloadLink = document.createElement('a');
+                downloadLink.href = imageURL;
+                downloadLink.download =
+                    `Tagesplan_${day.name}_${day.date}.png`;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                downloadLink.remove();
+
+                const text = `*${day.name}, ${day.date}*`;
+                const whatsappUrl =
+                    `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+
+                window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+            } catch (error) {
+                console.error('Screenshot-Fehler:', error);
+                alert('Fehler beim Erstellen des Bildes.');
+            }
+        }
+
+        // ESC schließt offene Modals.
+        document.addEventListener('keydown', event => {
+            if (event.key !== 'Escape') return;
+
+            const entryModal = document.getElementById('entry-modal');
+            const quickModal = document.getElementById('quick-modal');
+
+            if (!entryModal.classList.contains('hidden')) {
+                closeModal();
+            }
+
+            if (!quickModal.classList.contains('hidden')) {
+                closeQuickModal();
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            days = getWeeklyDays();
+            currentDayId = getTodayId();
+            quickModalDayId = currentDayId;
+            appData = loadData();
+
+            renderTabs();
+            loadDay(currentDayId);
+        });
     </script>
 </body>
 </html>
