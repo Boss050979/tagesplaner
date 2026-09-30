@@ -46,7 +46,7 @@
 
         <!-- Header -->
         <header class="bg-white/95 backdrop-blur-md rounded-2xl shadow-md p-4 flex flex-col md:flex-row justify-between items-center gap-4 no-print border border-slate-300/60">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
                 <div class="bg-rose-600 text-white p-2.5 rounded-xl text-lg shadow-md">
                     <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
                 </div>
@@ -61,7 +61,7 @@
                     Schnell-Eingabe
                 </button>
 
-                <button type="button" onclick="sendGroupWhatsAppDirect()" title="Bild kopieren und WhatsApp öffnen" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
+                <button type="button" onclick="sendGroupWhatsAppDirect()" title="Dienstplan als Bild kopieren, herunterladen und WhatsApp öffnen" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-medium transition shadow-sm flex items-center gap-2">
                     <i class="fa-brands fa-whatsapp text-base" aria-hidden="true"></i>
                     Dienstplan kopieren / WhatsApp
                 </button>
@@ -77,15 +77,32 @@
                 </button>
             </div>
         </header>
+        <!-- Cleaner WhatsApp-Hinweis -->
+        <div class="no-print rounded-lg border border-slate-200 bg-white px-3 py-2 shadow-sm">
+            <div class="flex items-center gap-3">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-white">
+                    <i class="fa-brands fa-whatsapp text-lg" aria-hidden="true"></i>
+                </div>
 
-        <!-- Info-Kasten für WhatsApp / Zwischenablage -->
-        <div class="bg-emerald-950/80 border border-emerald-600/50 text-emerald-200 px-4 py-3 rounded-xl text-xs flex items-center gap-3 shadow-md no-print backdrop-blur-sm">
-            <div class="bg-emerald-600 text-white p-2 rounded-lg shrink-0">
-                <i class="fa-solid fa-circle-info text-sm" aria-hidden="true"></i>
+                <div class="min-w-0 flex-1">
+                    <div class="text-xs font-bold text-slate-900">
+                        Dienstplan per WhatsApp senden
+                    </div>
+                    <p class="mt-0.5 text-[9px] md:text-[10px] leading-tight text-slate-500">
+                        Button anklicken, WhatsApp öffnen und das kopierte Bild mit
+                        <kbd class="mx-0.5 inline-flex items-center rounded border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-mono text-[9px] font-bold text-slate-700">STRG + V</kbd>
+                        einfügen.
+                    </p>
+                </div>
+
+                <div class="hidden md:flex shrink-0 items-center text-emerald-500">
+                    <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                </div>
             </div>
-            <div>
-                <span class="font-bold text-white">WhatsApp-Tipp:</span> Nach dem Klick auf „Dienstplan kopieren / WhatsApp“ wird das Bild automatisch in deine <span class="text-white font-semibold underline">Zwischenablage</span> kopiert. Öffne den Chat und drücke einfach <span class="bg-emerald-900 px-1.5 py-0.5 rounded text-white font-mono border border-emerald-500">STRG + V</span> (bzw. gedrückt halten und Einfügen), um es direkt in den Chat zu setzen[cite: 1]!
-            </div>
+
+            <p class="mt-1 pl-10 text-[8px] leading-tight text-slate-400">
+                Falls das Kopieren vom Browser blockiert wird, wird der Dienstplan automatisch als PNG gespeichert.
+            </p>
         </div>
 
         <!-- Wochentage -->
@@ -842,58 +859,67 @@
 
             try {
                 const canvas = await html2canvas(element, {
-                    scale: 2,
+                    scale: Math.min(window.devicePixelRatio || 2, 2),
                     backgroundColor: '#ffffff',
-                    useCORS: true
+                    useCORS: true,
+                    logging: false
                 });
 
                 const blob = await new Promise(resolve => {
                     canvas.toBlob(resolve, 'image/png');
                 });
 
-                if (!blob) {
-                    throw new Error('PNG konnte nicht erzeugt werden.');
-                }
+                if (!blob) throw new Error('PNG konnte nicht erzeugt werden.');
 
+                const fileName = `Dienstplan_${day.name}_${day.date.replace(/\./g, '-')}.png`;
                 let copiedToClipboard = false;
 
                 if (
+                    window.isSecureContext &&
                     navigator.clipboard &&
                     typeof ClipboardItem !== 'undefined' &&
-                    window.isSecureContext
+                    typeof navigator.clipboard.write === 'function'
                 ) {
                     try {
-                        const clipboardItem = new ClipboardItem({
-                            'image/png': blob
-                        });
-
+                        const clipboardItem = new ClipboardItem({ 'image/png': blob });
                         await navigator.clipboard.write([clipboardItem]);
                         copiedToClipboard = true;
                     } catch (clipboardError) {
-                        console.warn(
-                            'Kopieren in die Zwischenablage fehlgeschlagen:',
-                            clipboardError
-                        );
+                        console.warn('Kopieren in die Zwischenablage fehlgeschlagen:', clipboardError);
                     }
                 }
 
+                // Sicherungsdatei erzeugen, falls Clipboard nicht verfügbar ist.
+                const downloadUrl = URL.createObjectURL(blob);
+                const downloadLink = document.createElement('a');
+                downloadLink.href = downloadUrl;
+                downloadLink.download = fileName;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                downloadLink.remove();
+                setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+
+                // WhatsApp öffnen. Das Bild kann eine normale Webseite nicht
+                // automatisch als Datei-Anhang in WhatsApp einsetzen.
                 const text = `*${day.name}, ${day.date}*`;
                 const whatsappUrl =
                     `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
-
                 window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 
                 if (copiedToClipboard) {
                     alert(
-                        'Der Dienstplan wurde in die Zwischenablage kopiert!\n\n' +
-                        'Öffne den WhatsApp-Chat und drücke einfach STRG + V (oder halte das Eingabefeld gedrückt), um das Bild einzufügen.'
+                        'Fertig!\n\n' +
+                        'Der Dienstplan wurde als Bild in die Zwischenablage kopiert.\n' +
+                        'Öffne den gewünschten WhatsApp-Chat und drücke STRG + V, um das Bild einzufügen.\n\n' +
+                        'Zusätzlich wurde eine PNG-Datei als Sicherung heruntergeladen.'
                     );
                 } else {
                     alert(
-                        'Dein Browser blockiert das direkte Kopieren in die Zwischenablage. Bitte erlaube den Zugriff in den Browsereinstellungen.'
+                        'Das Bild konnte nicht automatisch in die Zwischenablage kopiert werden.\n\n' +
+                        'Eine PNG-Datei wurde heruntergeladen. Du kannst sie in WhatsApp auswählen.\n\n' +
+                        'Für automatisches STRG + V bitte die Seite über HTTPS oder localhost öffnen und den Zwischenablagezugriff erlauben.'
                     );
                 }
-
             } catch (error) {
                 console.error('Fehler beim Erstellen des Dienstplans:', error);
                 alert(
